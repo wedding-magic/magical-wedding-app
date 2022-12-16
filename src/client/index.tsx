@@ -9,6 +9,7 @@ import FileInput from '@uppy/file-input'
 import StatusBar from '@uppy/status-bar'
 import Tus from '@uppy/tus'
 
+//upload files to tusd server running on localhost:1080, the files are saved to public/data
 const uppyOne = new Uppy({ debug: true, autoProceed: true })
 uppyOne
   .use(FileInput, { target: '.UppyInput', pretty: false })
