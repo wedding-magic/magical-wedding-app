@@ -1,13 +1,16 @@
 import { useState } from "react";
 import React from 'react';
+import './style.css'
 
 
-
+//download image from test server
 export default function App() {
 
     // const url = 'http://localhost:8000/2571405708926370fb1f69e0a527e416';
     const url = 'http://localhost:3000';
     const name = 'test.png';
+
+
 
     const onButtonClick = () => {
         // using Java Script method to get PDF file

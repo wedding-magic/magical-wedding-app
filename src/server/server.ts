@@ -8,6 +8,9 @@ const app = express();
 const port = 3000;
 
 const filePath = path.join(__dirname,'/../../public/pic.png');
+
+
+
 const params = {'Access-Control-Allow-Origin': '*', 'Content-Type': 'image/png', 'Content-Disposition': 'attachment', 'filename': 'picture.png'};
 
 
@@ -17,6 +20,8 @@ app.get("/", (req: any, res: any) => {
     res.set(params);
     res.status(200).sendFile(filePath);
 });
+
+// app.use(express.static('public/data'));
 
 
 app.listen(port, () => {

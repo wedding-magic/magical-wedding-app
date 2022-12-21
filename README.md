@@ -3,7 +3,9 @@ photo magic
 
 # to start app and dev server for testing file download
 npm run start-dev
+
 navigate to localhost:8080
+
 the test server will run on localhost:3000
 
 # to test file upload
