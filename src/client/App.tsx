@@ -7,12 +7,43 @@ import './style.css'
 export default function App() {
 
     // const url = 'http://localhost:8000/2571405708926370fb1f69e0a527e416';
-    const url = 'http://localhost:3000';
+    const serverUrl: string = 'http://localhost:3000/static/';
+    const imagesUrl = 'http://localhost:3000/images';
     const name = 'test.png';
 
 
 
-    const onButtonClick = () => {
+
+    // const onButtonClick = () => {
+    //     // using Java Script method to get PDF file
+    //     fetch(url).then(response => {
+    //         response.blob().then(blob => {
+    //             // Creating new object of PDF file
+    //             const fileURL = window.URL.createObjectURL(blob);
+    //             // Setting various property values
+    //             let alink = document.createElement('a');
+    //             alink.href = fileURL;
+    //             alink.download = name;
+    //             document.body.appendChild(alink);
+    //             alink.click();
+    //             document.body.removeChild(alink);
+    //         })
+    //     })
+    // }
+
+
+    const onButtonClick = () => {fetch(imagesUrl).then(
+        response => response.json()).then(
+            urlArray => urlArray.forEach( (item: any) => downloadImage(item))
+        )};
+
+
+    
+
+
+
+
+    const downloadImage = (url: string) => {
         // using Java Script method to get PDF file
         fetch(url).then(response => {
             response.blob().then(blob => {
