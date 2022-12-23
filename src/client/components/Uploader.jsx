@@ -33,5 +33,21 @@ export default function Uploader (props) {
   //     .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
   // });
 
-  return <DragDrop uppy={props.uppy} target='.example-one .for-DragDrop' width='50%'/>
+  return (
+
+   <>
+    <h5>Upload your pictures</h5>
+    <DragDrop uppy={props.uppy} target='.example-one .for-DragDrop' width='50%'/>
+    
+    
+    </>
+      
+  
+  
+  
+  
+  
+  
+  
+  );
 }
