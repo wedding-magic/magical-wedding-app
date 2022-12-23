@@ -1,35 +1,36 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './App';
+import { BrowserRouter } from "react-router-dom";
 
-import Uppy from '@uppy/core'
-import DragDrop from '@uppy/drag-drop'
-import ProgressBar from '@uppy/progress-bar'
-import Tus from '@uppy/tus'
+// import Uppy from '@uppy/core'
+// import DragDrop from '@uppy/drag-drop'
+// import ProgressBar from '@uppy/progress-bar'
+// import Tus from '@uppy/tus'
 // import '@uppy/core/dist/style.css'
 // import '@uppy/drag-drop/dist/style.css'
 
 // Function for displaying uploaded files
-const onUploadSuccess = (elForUploadedFiles: any) => (file: any, response: any) => {
-  const url = response.uploadURL
-  const fileName = file.name
+// const onUploadSuccess = (elForUploadedFiles: any) => (file: any, response: any) => {
+//   const url = response.uploadURL
+//   const fileName = file.name
 
-  const li = document.createElement('li')
-  const a = document.createElement('a')
-  a.href = url
-  a.target = '_blank'
-  a.appendChild(document.createTextNode(fileName))
-  li.appendChild(a)
+//   const li = document.createElement('li')
+//   const a = document.createElement('a')
+//   a.href = url
+//   a.target = '_blank'
+//   a.appendChild(document.createTextNode(fileName))
+//   li.appendChild(a)
 
-  document.querySelector(elForUploadedFiles).appendChild(li)
-}
+//   document.querySelector(elForUploadedFiles).appendChild(li)
+// }
 
-const uppyOne = new Uppy({ debug: true, autoProceed: true })
-uppyOne
-  .use(DragDrop, { target: '.example-one .for-DragDrop',width: '50%' })
-  .use(Tus, { endpoint: 'http://localhost:1080/files/' })
-  .use(ProgressBar, { target: '.example-one .for-ProgressBar', hideAfterFinish: false })
-  .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+// const uppyOne = new Uppy({ debug: true, autoProceed: true })
+// uppyOne
+//   .use(DragDrop, { target: '.example-one .for-DragDrop',width: '50%' })
+//   .use(Tus, { endpoint: 'http://localhost:1080/files/' })
+//   .use(ProgressBar, { target: '.example-one .for-ProgressBar', hideAfterFinish: false })
+//   .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
 
 // const uppyTwo = new Uppy({ debug: true, autoProceed: false })
 // uppyTwo
@@ -66,5 +67,8 @@ uppyOne
 //   document.getElementById('root')
 // );
 render(
-  <App />, document.getElementById('root')
+  <BrowserRouter>
+  <App />
+  </BrowserRouter>
+  , document.getElementById('root')
 );
