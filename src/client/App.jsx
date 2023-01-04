@@ -7,7 +7,7 @@ import Uploader from './components/Uploader';
 import UploadProgressBar from './components/UploadProgressBar';
 import DownloadButton from './components/DownloadButton';
 import LandingPageContainer from './components/LandingPageContainer';
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route, BrowserRouter} from "react-router-dom";
 
 
 //download image from test server
@@ -39,7 +39,21 @@ export default function App() {
         document.querySelector(elForUploadedFiles).appendChild(li)
       }
 
-    const uppyOne = new Uppy({ debug: true, autoProceed: true})
+    const renameFiles = (files) => {
+        const updatedFiles = {};
+        
+        for (let i = 0; i < Object.keys(files).length; i++) {
+           updatedFiles[Object.keys(files)[i]] = {
+            ...files[Object.keys(files)[i]], name: `jobId/${i}.jpg`
+           }
+        };
+        return updatedFiles;
+        
+            }
+        
+    
+
+    const uppyOne = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles})
     .use(Tus, { endpoint: 'http://localhost:1080/files/'  })
     .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
 
@@ -48,11 +62,13 @@ export default function App() {
     return (
         <>
             <center>
+                {/* <BrowserRouter> */}
                 <Routes>
                 <Route path="/" element={<LandingPageContainer/>} />
-                <Route path="main" element={<><Uploader uppy={uppyOne}/><UploadProgressBar uppy={uppyOne}/><DownloadButton /></>} />
+                <Route path="/main" element={<><Uploader uppy={uppyOne}/><UploadProgressBar uppy={uppyOne}/><DownloadButton /></>} />
                 {/* <DownloadButton /> */}
                 </Routes>
+                {/* </BrowserRouter> */}
                 
               
                
