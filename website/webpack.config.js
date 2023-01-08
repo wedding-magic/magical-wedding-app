@@ -6,6 +6,7 @@ module.exports = {
     entry: path.join(__dirname, "src/client", "index.jsx"),
     output: {
         path: path.resolve(__dirname, "dist"),
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -41,6 +42,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, './dist'),
     },
