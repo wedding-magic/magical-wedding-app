@@ -8,7 +8,8 @@ import UploadProgressBar from './components/UploadProgressBar';
 import DownloadButton from './components/DownloadButton';
 import LandingPageContainer from './components/LandingPageContainer';
 import Test from './components/test';
-import { Routes, Route, BrowserRouter} from "react-router-dom";
+import { Routes, Route, useSearchParams} from "react-router-dom";
+
 
 
 //download image from test server
@@ -16,8 +17,11 @@ export default function App() {
 
     // const url = 'http://localhost:8000/2571405708926370fb1f69e0a527e416';
     // const serverUrl: string = 'http://localhost:3000/static/';
-    const imagesUrl = 'http://localhost:3000/images';
-    const name = 'test.png';
+    // const imagesUrl = 'http://localhost:3000/images';
+    // const name = 'test.png';
+
+   
+    const [searchParams, setSearchParams] = useSearchParams();
 
 
 
@@ -41,12 +45,18 @@ export default function App() {
       }
 
     const renameFiles = (files) => {
+        // const updatedFiles = {};
         const updatedFiles = {};
+        // const [searchParams, setSearchParams] = useSearchParams();
+        const jobId = searchParams.get('job_id');
+        console.log("jobId",jobId);
         
         for (let i = 0; i < Object.keys(files).length; i++) {
+        //    console.log("file.meta", files[Object.keys(files)[i]].meta )
            updatedFiles[Object.keys(files)[i]] = {
-            ...files[Object.keys(files)[i]], name: `jobId/${i}.jpg`
-           }
+            ...files[Object.keys(files)[i]], meta: {...files[Object.keys(files)[i]].meta, name: `job-${jobId}/${i}.jpg` }
+           };
+           console.log("file.meta", updatedFiles[Object.keys(files)[i]].meta )
         };
         return updatedFiles;
         
