@@ -20,7 +20,7 @@ jobsController.addJob = (req, res, next) => {
         image_generation_parameters
     ];
 
-    const qry = `INSERT INTO jobs(user_email, image_generation_parameters) VALUES($1,$2)`;
+    const qry = `INSERT INTO jobs(user_email, image_generation_parameters) VALUES($1,$2) RETURNING *`;
 
     db.query(qry,values)
     .then(data => 

@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const querystring = require('querystring');
 
 const tusHooksController = require('./controllers/tusHooksController.js');
 const jobsController = require('./controllers/jobsController');
@@ -64,6 +65,14 @@ app.post('/api/upload', jsonParser, tusHooksController.renameFile, async (req: a
 app.post('/api/create-checkout-session', jobsController.addJob, async (req: any, res: any) => {
     console.log("reached here");
     console.log("req.body",req.body);
+    console.log("res.locals.newJob",res.locals.newJob.rows[0]);
+    const paramsObject = {
+      job_id: res.locals.newJob.rows[0]._id
+    };
+    const myQueryString = querystring.stringify(paramsObject);
+
+
+
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -78,13 +87,19 @@ app.post('/api/create-checkout-session', jobsController.addJob, async (req: any,
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:8080/main',
+      success_url: `http://localhost:8080/main?${myQueryString}`,
       cancel_url: 'http://localhost:4242/cancel',
     });
   
     res.redirect(303, session.url);
     // res.status(200).json(session.url);
   });
+
+  // app.get('/api/paymentSuccess', async (req: any, res: any) => {
+  //   console.log("paymentSuccess req.body",req.body);
+  //   res.status(200).redirect(303,'http://localhost:8080/main')
+    
+  // })
 
   // app.post('/api/new-job')
 
