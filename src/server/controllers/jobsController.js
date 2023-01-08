@@ -5,8 +5,8 @@ const jobsController = {};
 jobsController.addJob = (req, res, next) => {
 
     // const {user_email, image_generation_parameters} = req.body;
-    console.log("reachedHere");
-    console.log("prompt_id",req.body.prompt_id);
+    // console.log("reachedHere");
+    // console.log("prompt_id",req.body.prompt_id);
 
     const {email, prompt_id, count_images} = req.body;
 

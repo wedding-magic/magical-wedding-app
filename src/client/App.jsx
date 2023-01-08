@@ -7,6 +7,7 @@ import Uploader from './components/Uploader';
 import UploadProgressBar from './components/UploadProgressBar';
 import DownloadButton from './components/DownloadButton';
 import LandingPageContainer from './components/LandingPageContainer';
+import Test from './components/test';
 import { Routes, Route, BrowserRouter} from "react-router-dom";
 
 
@@ -62,13 +63,13 @@ export default function App() {
     return (
         <>
             <center>
-                {/* <BrowserRouter> */}
+          
                 <Routes>
                 <Route path="/" element={<LandingPageContainer/>} />
-                <Route path="/main" element={<><Uploader uppy={uppyOne}/><UploadProgressBar uppy={uppyOne}/><DownloadButton /></>} />
-                {/* <DownloadButton /> */}
+                <Route path="/test" element ={<Test />} />
+                <Route path="/main" element= {<Uploader uppy={uppyOne}/>} />
                 </Routes>
-                {/* </BrowserRouter> */}
+               
                 
               
                
