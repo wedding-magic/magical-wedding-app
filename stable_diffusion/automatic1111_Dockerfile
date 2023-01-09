@@ -41,10 +41,12 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
         numpy \
         scipy \
         tensorboard \
+        triton \
+        ninja \
         transformers && \
     python3 -m pip install git+https://github.com/TheLastBen/diffusers@updt && \
     python3 -m pip install bitsandbytes && \
-    python3 -m pip install xformers && \
+    python3 -m pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers && \
     python3 -m pip install -r https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/requirements.txt && \
     python3 -m pip install clip open-clip-torch
 
