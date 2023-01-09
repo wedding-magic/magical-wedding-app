@@ -5,7 +5,7 @@
                 "runnables": [
                     {
                         "script": {
-                            "text": "source /home/tobrien6/venv/bin/activate && python /home/tobrien6/train.py"
+                            "text": "/home/tobrien6/venv/bin/python /home/tobrien6/train.py"
                         },
                         "environment": {
                             "variables": {
