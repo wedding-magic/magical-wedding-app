@@ -4,6 +4,7 @@ import subprocess
 from download_images import download_training_images
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/tobrien6/creds/stable-diffusion-372315-67085e37ee69.json"
+JOB_ID = os.environ["JOB_ID"]
 
 
 def train_textenc():
@@ -73,7 +74,7 @@ def save_model_ckpt():
     subprocess.run(command)
 
 
-def save_model_to_cloud():
+def save_model_to_cloud(job_id):
     # Create a client object
     client = storage.Client()
 
@@ -81,7 +82,7 @@ def save_model_to_cloud():
     bucket = client.get_bucket('magical-wedding-trained-model-output-bucket')
 
     # Create a blob object from the file
-    blob = bucket.blob('model.ckpt')
+    blob = bucket.blob(f'model-{job_id}.ckpt')
 
     # Read the contents of the file and then upload
     with open('/home/tobrien6/checkpoint/model.ckpt', 'rb') as f:
@@ -90,8 +91,20 @@ def save_model_to_cloud():
 
     print('File uploaded to Google Cloud Storage')
 
-download_training_images()
+download_training_images(JOB_ID)
 train_textenc()
 train_unet()
 save_model_ckpt()
-save_model_to_cloud()
+save_model_to_cloud(JOB_ID)
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,10 +4,8 @@ import subprocess
 from subprocess import getoutput
 import time
 
-# ENV variable provided in the job json specification for batch API 
-#JOB_ID = os.environ["JOB_ID"]
 
-def download_training_images(JOB_ID="prang"):
+def download_training_images(job_id="prang"):
     DELIMITER = "-"
 
     # Directories to use
@@ -15,7 +13,7 @@ def download_training_images(JOB_ID="prang"):
 
     # Set the name of the bucket and the prefix for the files you want to download
     bucket_name = "magical-wedding-cropped-image-output"
-    prefix = "{}{}".format(JOB_ID, DELIMITER)
+    prefix = "{}{}".format(job_id, DELIMITER)
 
     # Create a client for interacting with the Cloud Storage API
     storage_client = storage.Client()
