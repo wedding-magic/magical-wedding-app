@@ -53,8 +53,8 @@ const port = 3000;
 // app.use('/static',express.static('/../../public/data'));
 // app.use(cors());
 
-app.post('/api/upload', jsonParser, tusHooksController.renameFile, async (req: any, res: any) => {
-  console.log("reached upload route");
+app.post('/api/upload', jsonParser, tusHooksController.renameFile, jobsController.startBatch, async (req: any, res: any) => {
+  console.log("batch Response",res.locals.batchResponse);
   // console.log("headers",req.headers);
   // console.log("body",req.body);
   // console.log("Hook-Name",req['Hook-Name']);

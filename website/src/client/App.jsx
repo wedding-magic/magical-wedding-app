@@ -54,7 +54,7 @@ export default function App() {
         for (let i = 0; i < Object.keys(files).length; i++) {
         //    console.log("file.meta", files[Object.keys(files)[i]].meta )
            updatedFiles[Object.keys(files)[i]] = {
-            ...files[Object.keys(files)[i]], meta: {...files[Object.keys(files)[i]].meta, name: `job-${jobId}/${i}.jpg` }
+            ...files[Object.keys(files)[i]], meta: {...files[Object.keys(files)[i]].meta, name: `job-${jobId}_${i}.jpg` }
            };
            console.log("file.meta", updatedFiles[Object.keys(files)[i]].meta )
         };
