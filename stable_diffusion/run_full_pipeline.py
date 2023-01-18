@@ -1,5 +1,6 @@
 import os
 import io
+import sys
 import time
 import base64
 import requests
@@ -18,10 +19,10 @@ UNET_TRAIN_STEPS = os.environ["UNET_TRAIN_STEPS"]
 def train_textenc():
     print("Training text encoder")
     command = [
-        'sudo', 'docker', 'run', '-it', '--gpus=all', '--ipc=host',
+        'sudo', 'docker', 'run', '--gpus=all', '--ipc=host',
         '-v', '/home/tobrien6/:/content',
         'diffusers:latest',
-        'accelerate', 'launch',
+        'accelerate', 'launch', '--mixed_precision', 'fp16',
         '/content/diffusers/examples/dreambooth/train_dreambooth.py',
         '--image_captions_filename',
         '--train_text_encoder',
@@ -41,16 +42,16 @@ def train_textenc():
         '--lr_warmup_steps=0',
         '--max_train_steps={}'.format(TEXT_ENC_TRAIN_STEPS)
     ]
-    subprocess.run(command)
+    subprocess.run(command, stderr=sys.stderr, stdout=sys.stdout)
 
 
 def train_unet():
     print("Training unet")
     command = [
-        'sudo', 'docker', 'run', '-it', '--gpus=all', '--ipc=host',
+        'sudo', 'docker', 'run', '--gpus=all', '--ipc=host',
         '-v', '/home/tobrien6/:/content',
         'diffusers:latest',
-        'accelerate', 'launch',
+        'accelerate', 'launch', '--mixed_precision', 'fp16',
         '/content/diffusers/examples/dreambooth/train_dreambooth.py',
         '--image_captions_filename',
         '--train_only_unet',
@@ -69,17 +70,17 @@ def train_unet():
         '--lr_warmup_steps=0',
         '--max_train_steps={}'.format(UNET_TRAIN_STEPS)
     ]
-    subprocess.run(command)
+    subprocess.run(command, stderr=sys.stderr, stdout=sys.stdout)
 
 
 def save_model_ckpt():
     print("Saving checkpoint")
     command = [
-        'sudo', 'docker', 'run', '-it', '--gpus=all', '--ipc=host',
+        'sudo', 'docker', 'run', '--gpus=all', '--ipc=host',
         '-v', '/home/tobrien6/:/content', 'diffusers:latest',
         'python', '/content/convertosd.py'
     ]
-    subprocess.run(command)
+    subprocess.run(command, stderr=sys.stderr, stdout=sys.stdout)
 
 
 def save_model_to_cloud(job_id):
@@ -185,7 +186,7 @@ print(prompt_data)
 # launch automatic1111 API server
 # DOCS: https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API
 lauch_automatic1111_cmd = [
-    'sudo', 'docker', 'run', '-it', '--gpus=all', '--ipc=host',
+    'sudo', 'docker', 'run', '--gpus=all', '--ipc=host',
     '-v', '/home/tobrien6/:/content',
     '-p', '7860:7860',
     'automatic1111:latest',
@@ -200,7 +201,10 @@ lauch_automatic1111_cmd = [
     '--xformers'
 ]
 
-subprocess.Popen(lauch_automatic1111_cmd)
+subprocess.Popen(
+    lauch_automatic1111_cmd,
+    stderr=sys.stderr,
+    stdout=sys.stdout)
 
 wait = 0
 while wait >= 0:
