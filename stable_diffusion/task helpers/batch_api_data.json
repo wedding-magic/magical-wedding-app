@@ -5,13 +5,13 @@
                 "runnables": [
                     {
                         "script": {
-                            "text": "/bin/bash /home/tobrien6/run_full_pipeline.sh"
+                            "text": "/home/tobrien6/venv/bin/python /home/tobrien6/run_full_pipeline.py"
                         },
                         "environment": {
                             "variables": {
                                 "JOB_ID": "146cd4cc-3a0b-4a7f-bc59-dd40570381a5",
-                                "TEXT_ENC_TRAIN_STEPS": "150",
-                                "UNET_TRAIN_STEPS": "1500"
+                                "TEXT_ENC_TRAIN_STEPS": "5",
+                                "UNET_TRAIN_STEPS": "5"
                             }
                         }
                     }
