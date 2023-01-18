@@ -91,7 +91,7 @@ def save_model_to_cloud(job_id):
 
     print('File uploaded to Google Cloud Storage')
 
-download_training_images(JOB_ID)
+download_training_images("job-" + JOB_ID)
 train_textenc()
 train_unet()
 save_model_ckpt()

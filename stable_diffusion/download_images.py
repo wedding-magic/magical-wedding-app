@@ -6,14 +6,12 @@ import time
 
 
 def download_training_images(job_id="prang"):
-    DELIMITER = "-"
-
     # Directories to use
     LOCAL_DOWNLOAD_DIR = "/home/tobrien6/training_images"
 
     # Set the name of the bucket and the prefix for the files you want to download
     bucket_name = "magical-wedding-cropped-image-output"
-    prefix = "{}{}".format(job_id, DELIMITER)
+    prefix = "{}".format(job_id)
 
     # Create a client for interacting with the Cloud Storage API
     storage_client = storage.Client()
