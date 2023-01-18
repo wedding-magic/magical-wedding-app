@@ -22,3 +22,9 @@ open a new terminal window, run tusd binary (see https://github.com/tus/tusd/blo
 
 TUSD_FILE_PATH -gcs-bucket=test_input_bucket29 --hooks-http http://localhost:8080/api/upload
 
+# to connect to database
+
+download cloud sql proxy binary
+
+```./cloud_sql_proxy -instances=stable-diffusion-372315:us-west1:magical-wedding=tcp:5432```
+
