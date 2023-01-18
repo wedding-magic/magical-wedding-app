@@ -1,0 +1,36 @@
+{
+    "taskGroups": [
+        {
+            "taskSpec": {
+                "runnables": [
+                    {
+                        "script": {
+                            "text": "/bin/bash /home/tobrien6/run_full_pipeline.sh"
+                        },
+                        "environment": {
+                            "variables": {
+                                "JOB_ID": "146cd4cc-3a0b-4a7f-bc59-dd40570381a5",
+                                "TEXT_ENC_TRAIN_STEPS": "150",
+                                "UNET_TRAIN_STEPS": "1500"
+                            }
+                        }
+                    }
+                ],
+                "computeResource": {
+                    "cpuMilli": 4000,
+                    "memoryMib": 15000
+                }
+            }
+        }
+    ],
+    "allocationPolicy": {
+        "instances": [
+            {
+                "instanceTemplate": "stable-diffusion-instance-template-4"
+            }
+        ]
+    },
+    "logsPolicy": {
+        "destination": "CLOUD_LOGGING"
+    }
+}
