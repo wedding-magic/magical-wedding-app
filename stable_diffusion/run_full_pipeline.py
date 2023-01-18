@@ -238,6 +238,5 @@ for image_gen_batch in image_gen_params.items():
         save_image_to_cloud(bytes, JOB_ID, prompt_id, i)
 
 # stop automatic1111 container
-stop_automatic_cmd = ['docker', 'stop', '$(docker', 'ps', '-a', '-q)']
-subprocess.run(stop_automatic_cmd, stderr=sys.stderr, stdout=sys.stdout)
+os.system("docker stop $(docker ps -a -q)")
 
