@@ -2,7 +2,7 @@
 
 1) Make sure the instance-2 virtual machine instance on Compute Engine is up-to-date, as the Instance Template will be a carbon copy of this.
 
-2) Create a new Machine Image of instance-2 using this command:
+2) Create a new Machine Image of instance-2 using this command (this may take 15 minutes or so to complete):
 
       ```
       gcloud compute images create stable-diffusion-image-4 \
