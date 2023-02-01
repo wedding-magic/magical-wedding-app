@@ -1,4 +1,4 @@
-Instructions to update the Instance Template which is the environment used when the Batch API is called.
+### Instructions to update the Instance Template which is the environment used when the Batch API is called.
 
 1) Make sure the instance-2 virtual machine instance on Compute Engine is up-to-date, as the Instance Template will be a carbon copy of this.
 
