@@ -9,6 +9,7 @@ const querystring = require('querystring');
 
 const tusHooksController = require('./controllers/tusHooksController.js');
 const jobsController = require('./controllers/jobsController');
+const emailController = require('./controllers/emailController');
 // const {Storage} = require('@google-cloud/storage');
 // const storage = new Storage();
 // const bucketName = 'test_input_bucket29';
@@ -52,6 +53,13 @@ const port = 3000;
 //for testing file download component
 // app.use('/static',express.static('/../../public/data'));
 // app.use(cors());
+
+app.post('/email',emailController.emailPics, (req: any, res: any) => {
+  console.log("emails sent");
+  return res.sendStatus(200);
+})
+
+
 
 app.post('/api/upload', jsonParser, tusHooksController.renameFile, jobsController.startBatch, async (req: any, res: any) => {
   console.log("batch Response",res.locals.batchResponse);
@@ -120,6 +128,10 @@ app.post('/api/create-checkout-session', jobsController.addJob, async (req: any,
 // app.get('/images', (req: any, res: any) => res.json(linkArray));
 
 // app.use(express.static('public/data'));
+
+app.get("/", (req: any, res: any) => {
+  res.sendStatus(200);
+})
 
 
 app.listen(port, () => {
