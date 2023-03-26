@@ -1,8 +1,0 @@
-# Function dependencies, for example:
-# package>=version
-functions-framework==3.0.0
-watchdog==1.0.0
-google-cloud
-google-cloud-vision
-google-cloud-storage
-Pillow

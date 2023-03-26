@@ -1,3 +1,0 @@
-gcloud batch jobs submit [JOB_NAME_YOU_CHOOSE] \
-	--location us-west1 \
-	--config batch_api_data.json
