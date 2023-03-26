@@ -10,6 +10,14 @@ const storage = new Storage();
 
 require('dotenv').config();
 
+const emailController = {};
+
+emailController.emailPics = (req, res, next) => {
+
+const {job_id} = req.body;
+
+console.log("job_id",job_id);
+
 // Create a transporter object to handle sending the email
 const transporter = nodemailer.createTransport({
     service: 'gmail', // your email server
@@ -31,7 +39,7 @@ const mailOptions = {
 
 async function sendFiles(jobId) {
     // Lists files in the bucket
-    const [files] = await storage.bucket(bucketName).getFiles({prefix: jobId});
+    const [files] = await storage.bucket(bucketName).getFiles({prefix: jobId}).catch(err => console.log(err));
   
     console.log('Files:');
     files.forEach(file => {
@@ -44,6 +52,7 @@ async function sendFiles(jobId) {
             console.log(error);
         }
         console.log('email sent', info.response);
+        return next();
     })
   };
 
@@ -62,6 +71,14 @@ mailOptions.attachments.push({
     content: readStream
 });
 
+sendFiles(job_id).then(
+    () => {console.log("reached here");
+    return next()}
+)
+.catch(
+    err => {console.log(err)}
+)
+
 // Send the email
 // transporter.sendMail(mailOptions, (error, info) => {
 //     if (error) {
@@ -71,5 +88,9 @@ mailOptions.attachments.push({
 // });
 }
 
-sendFiles('job-faf40662-81bf-4ad3-a51e-c84eb2317d69');
+};
+
+// sendFiles('job-faf40662-81bf-4ad3-a51e-c84eb2317d69');
+
+module.exports = emailController;
 

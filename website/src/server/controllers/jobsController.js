@@ -34,11 +34,13 @@ const body = `{
                 "runnables": [
                     {
                         "script": {
-                            "text": "/home/tobrien6/venv/bin/python /home/tobrien6/train.py"
+                            "text": "/home/tobrien6/venv/bin/python /home/tobrien6/run_full_pipeline.py"
                         },
                         "environment": {
                             "variables": {
-                                "JOB_ID": "JOB-TEST1234"
+                                "JOB_ID": "JOB-TEST1234",
+                                "TEXT_ENC_TRAIN_STEPS": "300",
+                                "UNET_TRAIN_STEPS": "3000"
                             }
                         }
                     }
@@ -53,7 +55,7 @@ const body = `{
     "allocationPolicy": {
         "instances": [
             {
-                "instanceTemplate": "stable-diffusion-test-instance-template-3"
+                "instanceTemplate": "stable-diffusion-instance-template-4"
             }
         ]
     },
@@ -106,11 +108,13 @@ jobsController.addJob = (req, res, next) => {
 jobsController.startBatch = async (req, res, next) => {
 
     const { job_id } = res.locals;
-    const config = setJobId(body, job_id);
+    const stripped_id = job_id.slice(4);
+    const config = setJobId(body, stripped_id);
     const url = baseUrl + job_id;
 
     console.log("config", config);
     console.log("job_id", job_id);
+    console.log("stripped_id", stripped_id);
 
 
 
