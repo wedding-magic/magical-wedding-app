@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import PaymentButton from './PaymentButton';
+import Form from './Form.jsx';
 
 export default function LandingPageContainer(){
 
@@ -9,9 +8,10 @@ export default function LandingPageContainer(){
     <h1>
         Welcome to Magical Wedding, Pay Us
     </h1>
-    <PaymentButton />
+    <Form />
+    {/* <PaymentButton />
     
-    <Link to="main"> <button>REDIRECT TO MAIN (TESTING REACT ROUTER)</button></Link>
+    <Link to="main"> <button>REDIRECT TO MAIN (TESTING REACT ROUTER)</button></Link> */}
      </>
 
   )
