@@ -1,6 +1,38 @@
 /**
 * General Uppy styles that apply to everything inside the .uppy-Root container
 */
+
+/* .landingPageForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+} */
+/* form {
+  margin: 0 auto;
+  width: 400px;
+} */
+label {
+  display: inline-block;
+  width: 150px;
+  /* text-align: left; */
+  
+  
+  
+}
+
+input {
+  padding: 5px 10px;
+  /* display: inline-block;
+  text-align: left; */
+  
+  
+}
+
+div .LandingPageForm {
+  margin-bottom: 10px
+}
+
 .uppy-Root {
     position: relative;
     box-sizing: border-box;

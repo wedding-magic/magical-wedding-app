@@ -6,10 +6,12 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const querystring = require('querystring');
+const cors = require('cors');
 
 const tusHooksController = require('./controllers/tusHooksController.js');
 const jobsController = require('./controllers/jobsController');
 const emailController = require('./controllers/emailController');
+const promoController = require('./controllers/promoController.js');
 // const {Storage} = require('@google-cloud/storage');
 // const storage = new Storage();
 // const bucketName = 'test_input_bucket29';
@@ -17,6 +19,7 @@ const emailController = require('./controllers/emailController');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(cors());
 
 
 const stripe = require('stripe')('sk_test_51MJiFPFGv5L3ZxuOCjWw4P0RSr1gb5ZKjAZgVNu1Qq4jWot1fTpNh3tYtyoJlmp56j2EMwKRCCF6vgiu3o5KAo4h00KDGdXHck');
@@ -57,6 +60,20 @@ const port = 3000;
 app.post('/email',emailController.emailPics, (req: any, res: any) => {
   console.log("emails sent");
   return res.sendStatus(200);
+});
+
+app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (req: any, res: any) => {
+  console.log("reached here");
+  console.log("req.body",req.body);
+  console.log("res.locals.newJob",res.locals.newJob.rows[0]);
+  const paramsObject = {
+    job_id: res.locals.newJob.rows[0]._id
+  };
+  const myQueryString = querystring.stringify(paramsObject);
+  const url = `/main?${myQueryString}`;
+  console.log("url",url);
+
+  return res.status(200).json({url: url});
 })
 
 
@@ -78,6 +95,7 @@ app.post('/api/create-checkout-session', jobsController.addJob, async (req: any,
       job_id: res.locals.newJob.rows[0]._id
     };
     const myQueryString = querystring.stringify(paramsObject);
+    // res.setHeader('Access-Control-Allow-Origin','*');
 
 
 
@@ -98,6 +116,10 @@ app.post('/api/create-checkout-session', jobsController.addJob, async (req: any,
       success_url: `http://localhost:8080/main?${myQueryString}`,
       cancel_url: 'http://localhost:4242/cancel',
     });
+
+    console.log("url",session.url);
+
+    
   
     res.redirect(303, session.url);
     // res.status(200).json(session.url);
@@ -130,7 +152,7 @@ app.post('/api/create-checkout-session', jobsController.addJob, async (req: any,
 // app.use(express.static('public/data'));
 
 app.get("/", (req: any, res: any) => {
-  res.sendStatus(200);
+  res.status(200).json('hello world');
 })
 
 
