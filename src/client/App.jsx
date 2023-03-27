@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
+import Transloadit from '@uppy/transloadit';
 import React from 'react';
 import './style.css';
 import Uploader from './components/Uploader';
@@ -64,9 +65,20 @@ export default function App() {
         
     
 
-    const uppyOne = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles})
-    .use(Tus, { endpoint: 'http://localhost:1080/files/'  })
-    .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+    // const uppyOne = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles})
+    // .use(Tus, { endpoint: 'http://localhost:1080/files/'  })
+    // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+
+    const uppyTwo = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles})
+    .use(Transloadit, {
+        assemblyOptions: {
+            params: {
+                auth: { key: '38333e2f522a46dc8517da85dafc1578'},
+                template_id: 'b429e3e4825e49cd8b9ead29fb410566',
+            }
+        }
+    })
+    .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'));
 
 
    
@@ -77,7 +89,7 @@ export default function App() {
                 <Routes>
                 <Route path="/" element={<LandingPageContainer/>} />
                 <Route path="/test" element ={<Test />} />
-                <Route path="/main" element= {<Uploader uppy={uppyOne}/>} />
+                <Route path="/main" element= {<Uploader uppy={uppyTwo}/>} />
                 </Routes>
                
                 
