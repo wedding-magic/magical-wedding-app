@@ -33,7 +33,9 @@ export default function App() {
 
         console.log("testo")
         const url = response.uploadURL
-        const fileName = file.name
+        const fileName = file.name;
+        console.log("file.meta",file.meta);
+        console.log("file",file);
       
         const li = document.createElement('li')
         const a = document.createElement('a')
@@ -62,6 +64,26 @@ export default function App() {
         return updatedFiles;
         
             }
+
+    const renameFiles2 = (files) => {
+                // const updatedFiles = {};
+        const updatedFiles = {};
+                // const [searchParams, setSearchParams] = useSearchParams();
+        const jobId = searchParams.get('job_id');
+        console.log("jobId",jobId);
+                
+        for (let i = 0; i < Object.keys(files).length; i++) {
+                //    console.log("file.meta", files[Object.keys(files)[i]].meta )
+            updatedFiles[Object.keys(files)[i]] = {
+             ...files[Object.keys(files)[i]], name: `job-${jobId}_${i}` }
+            };
+            //  console.log("file.meta", updatedFiles[Object.keys(files)[i]].meta )
+            
+            return updatedFiles;
+                
+                    }
+
+ 
         
     
 
@@ -69,7 +91,7 @@ export default function App() {
     // .use(Tus, { endpoint: 'http://localhost:1080/files/'  })
     // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
 
-    const uppyTwo = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles})
+    const uppyTwo = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles2})
     .use(Transloadit, {
         assemblyOptions: {
             params: {
