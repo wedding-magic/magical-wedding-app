@@ -57,7 +57,7 @@ const port = 3000;
 // app.use('/static',express.static('/../../public/data'));
 // app.use(cors());
 
-app.post('/email',emailController.emailPics, (req: any, res: any) => {
+app.post('/api/email',emailController.emailPics, (req: any, res: any) => {
   console.log("emails sent");
   return res.sendStatus(200);
 });
