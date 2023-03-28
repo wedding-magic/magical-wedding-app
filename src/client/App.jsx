@@ -47,23 +47,44 @@ export default function App() {
         document.querySelector(elForUploadedFiles).appendChild(li)
       }
 
-    const renameFiles = (files) => {
-        // const updatedFiles = {};
-        const updatedFiles = {};
-        // const [searchParams, setSearchParams] = useSearchParams();
+    const onUploadComplete = () => {
+
+        
+
         const jobId = searchParams.get('job_id');
-        console.log("jobId",jobId);
+        console.log("jobId",jobId)
+        fetch("/api/startJob", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({job_id: jobId})
+        })
+        .then(
+            () => {console.log("success")}
+        )
+        .catch(err => console.error(err))
+
+
+    }
+
+    // const renameFiles = (files) => {
+    //     // const updatedFiles = {};
+    //     const updatedFiles = {};
+    //     // const [searchParams, setSearchParams] = useSearchParams();
+    //     const jobId = searchParams.get('job_id');
+    //     console.log("jobId",jobId);
         
-        for (let i = 0; i < Object.keys(files).length; i++) {
-        //    console.log("file.meta", files[Object.keys(files)[i]].meta )
-           updatedFiles[Object.keys(files)[i]] = {
-            ...files[Object.keys(files)[i]], meta: {...files[Object.keys(files)[i]].meta, name: `job-${jobId}_${i}.jpg` }
-           };
-           console.log("file.meta", updatedFiles[Object.keys(files)[i]].meta )
-        };
-        return updatedFiles;
+    //     for (let i = 0; i < Object.keys(files).length; i++) {
+    //     //    console.log("file.meta", files[Object.keys(files)[i]].meta )
+    //        updatedFiles[Object.keys(files)[i]] = {
+    //         ...files[Object.keys(files)[i]], meta: {...files[Object.keys(files)[i]].meta, name: `job-${jobId}_${i}.jpg` }
+    //        };
+    //        console.log("file.meta", updatedFiles[Object.keys(files)[i]].meta )
+    //     };
+    //     return updatedFiles;
         
-            }
+    //         }
 
     const renameFiles2 = (files) => {
                 // const updatedFiles = {};
@@ -100,7 +121,8 @@ export default function App() {
             }
         }
     })
-    .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'));
+    .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+    .on('complete', onUploadComplete());
 
 
    

@@ -105,16 +105,52 @@ jobsController.addJob = (req, res, next) => {
 
 // }
 
-jobsController.startBatch = async (req, res, next) => {
+// jobsController.startBatch = async (req, res, next) => {
 
-    const { job_id } = res.locals;
-    const stripped_id = job_id.slice(4);
-    const config = setJobId(body, stripped_id);
+//     const { job_id } = res.locals;
+//     const stripped_id = job_id.slice(4);
+//     const config = setJobId(body, stripped_id);
+//     const url = baseUrl + job_id;
+
+//     console.log("config", config);
+//     console.log("job_id", job_id);
+//     console.log("stripped_id", stripped_id);
+
+
+
+//     // async function main() {
+//   const auth = new GoogleAuth({
+//     scopes: 'https://www.googleapis.com/auth/cloud-platform'
+//   });
+//   auth.getClient().then(
+//     client => {
+//         return client.request({ url: url, method: 'POST', 
+//         headers: {'Content-Type': 'application/json'}, data: config });
+//     })
+//     .then(
+//       data => {res.locals.batchResponse = data}
+//     )
+//     .then(
+//         () => {
+//             console.log("sent request")
+//             return next();
+//         }
+//     )
+//     .catch(err => {console.log(err)})
+// };
+
+jobsController.startBatch2 = async (req, res, next) => {
+
+    console.log("req.body",req.body);
+
+    const { job_id } = req.body;
+    // const stripped_id = job_id.slice(4);
+    const config = setJobId(body, job_id);
     const url = baseUrl + job_id;
 
     console.log("config", config);
     console.log("job_id", job_id);
-    console.log("stripped_id", stripped_id);
+    // console.log("stripped_id", stripped_id);
 
 
 
@@ -137,35 +173,6 @@ jobsController.startBatch = async (req, res, next) => {
         }
     )
     .catch(err => {console.log(err)})
-//   const projectId = await auth.getProjectId();
-//   const url = `https://dns.googleapis.com/dns/v1/projects/${projectId}`;
-//   const res = await client.request({ url: url, method: 'POST', 
-//   headers: {'Content-Type': 'application/json'}, data: config });
-//   console.log(res.data);
-// }
-
-// main().catch(console.error);
-
-    // fetch(url,{
-    //     method: 'post',
-    //     body: config,
-    //     headers: {'Content-Type': 'application/json'}
-
-    // })
-    // .then(
-    //     data => data.json()
-    // )
-    // .then(
-    //   data => {res.locals.batchResponse = data}
-    // )
-    // .then(
-    //     () => {
-    //         console.log("sent request")
-    //         return next();
-    //     }
-    // )
-    // .catch(err => {console.log(err)})
-
 };
 
 module.exports = jobsController;
