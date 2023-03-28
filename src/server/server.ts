@@ -76,16 +76,21 @@ app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (
   return res.status(200).json({url: url});
 })
 
-
-
-app.post('/api/upload', jsonParser, tusHooksController.renameFile, jobsController.startBatch, async (req: any, res: any) => {
+app.post('/api/startJob', jobsController.startBatch2, async (req: any, res: any) => {
   console.log("batch Response",res.locals.batchResponse);
-  // console.log("headers",req.headers);
-  // console.log("body",req.body);
-  // console.log("Hook-Name",req['Hook-Name']);
-  // console.log("req",req);
-  return res.sendStatus(200);
+  res.sendStatus(200);
 })
+
+
+
+// app.post('/api/upload', jsonParser, tusHooksController.renameFile, jobsController.startBatch, async (req: any, res: any) => {
+//   console.log("batch Response",res.locals.batchResponse);
+//   // console.log("headers",req.headers);
+//   // console.log("body",req.body);
+//   // console.log("Hook-Name",req['Hook-Name']);
+//   // console.log("req",req);
+//   return res.sendStatus(200);
+// })
 
 app.post('/api/create-checkout-session', jobsController.addJob, async (req: any, res: any) => {
     console.log("reached here");
