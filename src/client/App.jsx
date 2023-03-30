@@ -63,7 +63,8 @@ export default function App() {
         .then(
             () => {console.log("success")}
         )
-        .catch(err => console.error(err))
+        .catch(err => {console.error(err);
+        })
 
 
     }
