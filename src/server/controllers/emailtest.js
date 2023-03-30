@@ -10,15 +10,6 @@ const storage = new Storage();
 
 require('dotenv').config();
 
-const emailController = {};
-
-emailController.emailPics = (req, res, next) => {
-
-const {job_id} = req.body;
-
-console.log("job_id",job_id);
-
-// Create a transporter object to handle sending the email
 const transporter = nodemailer.createTransport({
     service: 'gmail', // your email server
     auth: {
@@ -71,27 +62,11 @@ async function sendFiles(jobId) {
 
 };
 
-
-sendFiles(job_id).then(
-    () => {console.log("reached here");
-    return next()}
-)
-.catch(
-    err => {console.log(err)}
-)
-
-// Send the email
-// transporter.sendMail(mailOptions, (error, info) => {
-//     if (error) {
-//         console.log(error);
-//     }
-//     console.log('email sent', info.response);
-// });
-};
+const job_id = 'job-fab59855-1cfe-49f7-8e1b-0b471ed247bd';
+sendFiles(job_id);
 
 
 
-// sendFiles('job-faf40662-81bf-4ad3-a51e-c84eb2317d69');
 
-module.exports = emailController;
+
 
