@@ -41,6 +41,7 @@
     "google-auth-library": "^8.7.0",
     "knex": "^2.3.0",
     "node-fetch": "^2.6.9",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "nodemailer": "^6.9.1",
     "pg": "^8.8.0",
     "postcss-loader": "^7.0.2",

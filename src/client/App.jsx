@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import Uppy from '@uppy/core';
-import Tus from '@uppy/tus';
+// import Tus from '@uppy/tus';
 import Transloadit from '@uppy/transloadit';
 import React from 'react';
 import './style.css';
 import Uploader from './components/Uploader';
-import UploadProgressBar from './components/UploadProgressBar';
-import DownloadButton from './components/DownloadButton';
+// import UploadProgressBar from './components/UploadProgressBar';
+// import DownloadButton from './components/DownloadButton';
 import LandingPageContainer from './components/LandingPageContainer';
 import Test from './components/test';
 import { Routes, Route, useSearchParams} from "react-router-dom";
+// import { ProgressPlugin } from "webpack";
+import { Navigate } from "react-router-dom";
+
 
 
 
@@ -24,6 +27,20 @@ export default function App() {
 
    
     const [searchParams, setSearchParams] = useSearchParams();
+    const [emailInput, setEmailInput] = useState("");
+    const [promptInput, setPromptInput] = useState("");
+    const [numImagesInput, setNumImagesInput] = useState("");
+    const [promoCodeInput, setPromoCodeInput] = useState("");
+
+    const [url, setUrl] = useState("");
+    const [toggle, setToggle] = useState(true);
+
+    const handleEmailChange =  (e) => {setEmailInput(e.target.value)};
+    const handlePromptChange =  (e) => {setPromptInput(e.target.value)};
+    const handleNumImagesChange = (e) => {setNumImagesInput(e.target.value)};
+    const handlePromoCodeChange = (e) => {setPromoCodeInput(e.target.value)};
+
+
 
     // const [authKey, setAuthKey] = useState("");
     // const [templateId, setTemplateId] = useState("");
@@ -70,6 +87,45 @@ export default function App() {
     //     // .on('complete', () => {onUploadComplete()});
 
     // }, []);
+
+    function handleToggle(){
+        setToggle(!toggle);
+    }
+
+    async function onSubmit(event) {
+        event.preventDefault();
+        console.log("reached onSubmit")
+        try {
+          const response = await fetch("/api/promo", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: emailInput, prompt_id: promptInput, count_images: numImagesInput, promo_code: promoCodeInput }),
+          });
+    
+          const data = await response.json();
+          console.log("data returned", data);
+          console.log("url",data.url);
+          setUrl(data.url);
+          handleToggle();
+          if (response.status !== 200) {
+            throw data.error || new Error(`Request failed with status ${response.status}`);
+          }
+
+        //   setUrl(data.url);
+        //   console.log("url",data.url);
+    
+        //   setResult(data.result);
+        //   console.log(data.result);
+          
+          // setAnimalInput("");
+        } catch(error) {
+          // Consider implementing your own error handling logic here
+          console.error(error);
+          alert(error.message);
+        }
+      }
 
 
 
@@ -182,13 +238,29 @@ export default function App() {
    
     return (
         <>
+        
             <center>
+
+            
+       {/* <LandingPageContainer onSubmit={onSubmit}
+                             handleEmailChange={handleEmailChange}
+                             handleNumImagesChange= {handleNumImagesChange}
+                             handlePromoCodeChange={handlePromoCodeChange}
+                             handlePromptChange={handlePromptChange} /> */}
           
                 <Routes>
-                <Route path="/" element={<LandingPageContainer/>} />
+                <Route path="/" element={<LandingPageContainer onSubmit={onSubmit}
+                                                                handleEmailChange={handleEmailChange}
+                                                                handleNumImagesChange= {handleNumImagesChange}
+                                                                handlePromoCodeChange={handlePromoCodeChange}
+                                                                handlePromptChange={handlePromptChange} />}/>
                 <Route path="/test" element ={<Test />} />
                 <Route path="/main" element= {<Uploader uppy={uppyTwo}/>} />
                 </Routes>
+
+                {
+        (url && toggle) ? <Navigate to={url} /> : null
+       }
                
                 
               
