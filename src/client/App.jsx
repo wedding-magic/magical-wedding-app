@@ -113,7 +113,7 @@ export default function App() {
     // .use(Tus, { endpoint: 'http://localhost:1080/files/'  })
     // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
 
-    const uppyTwo = new Uppy({ debug: true, autoProceed: true, onBeforeUpload: renameFiles2})
+    const uppyTwo = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
     .use(Transloadit, {
         assemblyOptions: {
             params: {
@@ -123,7 +123,7 @@ export default function App() {
         }
     })
     .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
-    .on('complete', onUploadComplete());
+    .on('complete', () => {onUploadComplete()});
 
 
    

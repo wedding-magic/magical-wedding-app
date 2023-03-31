@@ -37,7 +37,15 @@ export default function Uploader (props) {
 
    <>
     <h5>Upload your pictures</h5>
-    <DragDrop uppy={props.uppy} target='.example-one .for-DragDrop' width='50%'/>
+    <DragDrop uppy={props.uppy}
+    locale={{
+      strings: {
+        dropHereOr: 'Drop images folder here'
+      }
+    }}
+    note='Image files only (.jpg or .png), recommended 20+ pictures with varied backgrounds and clear view of face' 
+    target='.example-one .for-DragDrop' 
+    width='50%'/>
     
     
     </>
