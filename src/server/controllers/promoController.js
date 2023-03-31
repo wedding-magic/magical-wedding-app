@@ -12,7 +12,10 @@ promoController.checkPromo = (req, res, next) => {
     else {
         console.log("denied");
 
-        res.sendStatus(200);
+        res.error = new Error("invalid promo code");
+        
+
+       return res.status(400).json(new Error("invalid promo code"));
 
     }
 };
