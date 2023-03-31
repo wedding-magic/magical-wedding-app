@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import Transloadit from '@uppy/transloadit';
@@ -20,9 +20,62 @@ export default function App() {
     // const serverUrl: string = 'http://localhost:3000/static/';
     // const imagesUrl = 'http://localhost:3000/images';
     // const name = 'test.png';
+    // const [uppyTwo, setUppyTwo] = useState();
 
    
     const [searchParams, setSearchParams] = useSearchParams();
+
+    // const [authKey, setAuthKey] = useState("");
+    // const [templateId, setTemplateId] = useState("");
+
+//     const fetchKeys = () => {fetch("/api/transloaditKeys", {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+       
+//     })
+//     .then(
+//         data => data.json()
+//     )
+//     .then(data => {
+        
+//         setAuthKey(data.auth_key);
+//         setTemplateId(data.template_id);
+//         console.log("setKeys")
+        
+        
+//     })
+//     .catch(err => {console.error(err);
+//     })
+// };
+
+    // let UppyTwo;
+
+
+    // useEffect(() => {
+
+    //     fetchKeys();
+    //     // console.log("uppyTwo", uppyTwo)
+    //     // UppyTwo = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
+    //     // .use(Transloadit, {
+    //     //     assemblyOptions: {
+    //     //         params: {
+    //     //             auth: { key: authKey},
+    //     //             template_id: templateId,
+    //     //         }
+    //     //     }
+    //     // })
+    //     // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+    //     // .on('complete', () => {onUploadComplete()});
+
+    // }, []);
+
+
+
+
+
+
 
 
 

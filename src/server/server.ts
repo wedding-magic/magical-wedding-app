@@ -12,6 +12,7 @@ const tusHooksController = require('./controllers/tusHooksController.js');
 const jobsController = require('./controllers/jobsController');
 const emailController = require('./controllers/emailController');
 const promoController = require('./controllers/promoController.js');
+require('dotenv').config();
 // const {Storage} = require('@google-cloud/storage');
 // const storage = new Storage();
 // const bucketName = 'test_input_bucket29';
@@ -57,10 +58,24 @@ const port = 3000;
 // app.use('/static',express.static('/../../public/data'));
 // app.use(cors());
 
-app.post('/api/email',emailController.emailPics, (req: any, res: any) => {
-  console.log("emails sent");
-  return res.sendStatus(200);
-});
+// app.post('/api/email',emailController.emailPics, (req: any, res: any) => {
+//   console.log("emails sent");
+//   return res.sendStatus(200);
+// });
+
+app.get('/api/transloaditKeys', (req: any, res: any) => {
+
+  const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
+  const auth_key = process.env.AUTH_KEY;
+
+  const response = {
+    template_id: template_id,
+    auth_key: auth_key
+  }
+
+  res.status(200).json(response);
+
+})
 
 app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (req: any, res: any) => {
   console.log("reached here");
