@@ -88,7 +88,10 @@ app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (
   const url = `/main?${myQueryString}`;
   console.log("url",url);
 
-  return res.status(200).json({url: url});
+  const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
+  const auth_key = process.env.TRANSLOADIT_AUTH;
+
+  return res.status(200).json({url: url, template_id: template_id, auth_key: auth_key});
 })
 
 app.post('/api/startJob', jobsController.startBatch2, async (req: any, res: any) => {

@@ -33,7 +33,9 @@ export default function App() {
     const [promoCodeInput, setPromoCodeInput] = useState("");
 
     const [url, setUrl] = useState("");
-    const [toggle, setToggle] = useState(true);
+    const [uppy, setUppy] = useState(null);
+    const [toggle, setToggle] = useState(false);
+    // const [uppyToggle, setUppyToggle] = useState(false);
 
     const handleEmailChange =  (e) => {setEmailInput(e.target.value)};
     const handlePromptChange =  (e) => {setPromptInput(e.target.value)};
@@ -92,6 +94,10 @@ export default function App() {
         setToggle(!toggle);
     }
 
+    useEffect(() => {
+        handleToggle()
+    }, [uppy]);
+
     async function onSubmit(event) {
         event.preventDefault();
         console.log("reached onSubmit")
@@ -108,7 +114,20 @@ export default function App() {
           console.log("data returned", data);
           console.log("url",data.url);
           setUrl(data.url);
+          setUppy(new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
+                        .use(Transloadit, {
+                             assemblyOptions: {
+                             params: {
+                             auth: { key: data.auth_key},
+                             template_id: data.template_id,
+                        }
+                    }
+                })
+                .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+                .on('complete', () => {onUploadComplete()}));
+          console.log("uppy", uppy)
           handleToggle();
+          console.log("uppy", uppy)
           if (response.status !== 200) {
             throw data.error || new Error(`Request failed with status ${response.status}`);
           }
@@ -222,17 +241,17 @@ export default function App() {
     // .use(Tus, { endpoint: 'http://localhost:1080/files/'  })
     // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
 
-    const uppyTwo = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
-    .use(Transloadit, {
-        assemblyOptions: {
-            params: {
-                auth: { key: '38333e2f522a46dc8517da85dafc1578'},
-                template_id: 'b429e3e4825e49cd8b9ead29fb410566',
-            }
-        }
-    })
-    .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
-    .on('complete', () => {onUploadComplete()});
+    // const uppyTwo = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
+    // .use(Transloadit, {
+    //     assemblyOptions: {
+    //         params: {
+    //             auth: { key: '38333e2f522a46dc8517da85dafc1578'},
+    //             template_id: 'b429e3e4825e49cd8b9ead29fb410566',
+    //         }
+    //     }
+    // })
+    // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+    // .on('complete', () => {onUploadComplete()});
 
 
    
@@ -255,8 +274,10 @@ export default function App() {
                                                                 handlePromoCodeChange={handlePromoCodeChange}
                                                                 handlePromptChange={handlePromptChange} />}/>
                 <Route path="/test" element ={<Test />} />
-                <Route path="/main" element= {<Uploader uppy={uppyTwo}/>} />
+                <Route path="/main" element=  {uppy ? <Uploader uppy={uppy}/> : null} />
                 </Routes>
+
+                {/* {(toggle && uppy) ? <Uploader uppy={uppy}/> : null} */}
 
                 {
         (url && toggle) ? <Navigate to={url} /> : null
