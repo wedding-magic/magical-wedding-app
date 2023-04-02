@@ -36,8 +36,8 @@ export default function Uploader (props) {
   return (
 
    <>
-    <h5>Upload your pictures here</h5>
-    <div className="StatusBar"></div>
+    <h5 className='uploaderTitle'>Upload your pictures here</h5>
+    
     <DragDrop uppy={props.uppy}
     locale={{
       strings: {
