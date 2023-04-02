@@ -36,14 +36,15 @@ export default function Uploader (props) {
   return (
 
    <>
-    <h5>Upload your pictures</h5>
+    <h5>Upload your pictures here</h5>
+    <div className="StatusBar"></div>
     <DragDrop uppy={props.uppy}
     locale={{
       strings: {
         dropHereOr: 'Drop images folder here'
       }
     }}
-    note='Image files only (.jpg or .png), recommended 20+ pictures with varied backgrounds and clear view of face' 
+    note='Image files only (.jpg .jpeg or .png), recommended 20+ pictures with varied backgrounds and clear view of face. Max total file size: 200 MB' 
     target='.example-one .for-DragDrop' 
     width='50%'/>
     
