@@ -5,6 +5,7 @@ import Transloadit from '@uppy/transloadit';
 import React from 'react';
 import './style.css';
 import Uploader from './components/Uploader';
+import HideStatusBar from "./components/HideStatusBar";
 // import UploadProgressBar from './components/UploadProgressBar';
 // import DownloadButton from './components/DownloadButton';
 import LandingPageContainer from './components/LandingPageContainer';
@@ -12,6 +13,8 @@ import Test from './components/test';
 import { Routes, Route, useSearchParams} from "react-router-dom";
 // import { ProgressPlugin } from "webpack";
 import { Navigate } from "react-router-dom";
+import StatusBar from "@uppy/status-bar";
+import ShowStatusBar from "./components/ShowStatusBar";
 
 
 
@@ -34,6 +37,11 @@ export default function App() {
 
     const [url, setUrl] = useState("");
     const [uppy, setUppy] = useState(null);
+    const [transloaditParams, setTransloaditParams] = useState(
+         {
+                auth: { key: ''},
+                template_id: '',
+            });
     const [toggle, setToggle] = useState(false);
     // const [uppyToggle, setUppyToggle] = useState(false);
 
@@ -114,20 +122,22 @@ export default function App() {
           console.log("data returned", data);
           console.log("url",data.url);
           setUrl(data.url);
-          setUppy(new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
-                        .use(Transloadit, {
-                             assemblyOptions: {
-                             params: {
-                             auth: { key: data.auth_key},
-                             template_id: data.template_id,
-                        }
-                    }
-                })
-                .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
-                .on('complete', () => {onUploadComplete()}));
-          console.log("uppy", uppy)
+          setTransloaditParams({auth: {key: data.auth_key}, template_id: data.template_id});
+        //   setUppy(new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2})
+        //                 .use(Transloadit, {
+        //                      assemblyOptions: {
+        //                      params: {
+        //                      auth: { key: data.auth_key},
+        //                      template_id: data.template_id,
+        //                 }
+        //             }
+        //         })
+        //         .use(StatusBar, {target: '.for-StatusBar'})
+        //         .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+        //         .on('complete', () => {onUploadComplete()}));
+        //   console.log("uppy", uppy)
           handleToggle();
-          console.log("uppy", uppy)
+        //   console.log("uppy", uppy)
           if (response.status !== 200) {
             throw data.error || new Error(`Request failed with status ${response.status}`);
           }
@@ -180,7 +190,7 @@ export default function App() {
         
 
         const jobId = searchParams.get('job_id');
-        console.log("jobId",jobId)
+        console.log("upload complete jobId",jobId)
         fetch("/api/startJob", {
             method: "POST",
             headers: {
@@ -220,7 +230,7 @@ export default function App() {
         const updatedFiles = {};
                 // const [searchParams, setSearchParams] = useSearchParams();
         const jobId = searchParams.get('job_id');
-        console.log("jobId",jobId);
+        console.log("rename files jobId",jobId);
                 
         for (let i = 0; i < Object.keys(files).length; i++) {
                 //    console.log("file.meta", files[Object.keys(files)[i]].meta )
@@ -250,8 +260,23 @@ export default function App() {
     //         }
     //     }
     // })
+    // .use(StatusBar, {target: '.for-StatusBar'})
     // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
     // .on('complete', () => {onUploadComplete()});
+
+    const uppyThree = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2,
+    restrictions: {
+        maxTotalFileSize: 200000000,
+        allowedFileTypes: ['image/*','.jpg','.jpeg','.png']
+    }})
+    .use(Transloadit, {
+        assemblyOptions: {
+            params: transloaditParams
+        }
+    })
+    .use(StatusBar, {target: '.for-StatusBar', showProgressDetails: true, locale: {strings: {complete: 'Upload complete! You will receive an email with your AI avatars within a couple hours.'}}})
+    // .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
+    .on('complete', () => {onUploadComplete()});
 
 
    
@@ -268,19 +293,20 @@ export default function App() {
                              handlePromptChange={handlePromptChange} /> */}
           
                 <Routes>
-                <Route path="/" element={<LandingPageContainer onSubmit={onSubmit}
+                <Route path="/" element={<HideStatusBar><LandingPageContainer onSubmit={onSubmit}
                                                                 handleEmailChange={handleEmailChange}
                                                                 handleNumImagesChange= {handleNumImagesChange}
                                                                 handlePromoCodeChange={handlePromoCodeChange}
-                                                                handlePromptChange={handlePromptChange} />}/>
+                                                                handlePromptChange={handlePromptChange} />
+                                                                </HideStatusBar>} />
                 <Route path="/test" element ={<Test />} />
-                <Route path="/main" element=  {uppy ? <Uploader uppy={uppy}/> : null} />
+                <Route path="/main" element=  {transloaditParams ? <ShowStatusBar><Uploader uppy={uppyThree}/></ShowStatusBar> : null} />
                 </Routes>
 
                 {/* {(toggle && uppy) ? <Uploader uppy={uppy}/> : null} */}
 
                 {
-        (url && toggle) ? <Navigate to={url} /> : null
+        (url && transloaditParams && toggle) ? <Navigate to={url} /> : null
        }
                
                 
