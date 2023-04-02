@@ -61,7 +61,7 @@ export default function Form(props) {
         />
         </div>
        
-        <div className="LandingPageForm">
+        {/* <div className="LandingPageForm">
         <label htmlFor="prompt_id">{"prompt_id: "} </label>
          <input type="text"
               name="prompt_id"
@@ -81,7 +81,7 @@ export default function Form(props) {
               onChange={props.handleNumImagesChange}
 
         />
-        </div>
+        </div> */}
    
         <div className="LandingPageForm">
         <label htmlFor="promo_code">{"promo code: "} </label>
