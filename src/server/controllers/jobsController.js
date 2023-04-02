@@ -42,8 +42,8 @@ const body = `{
                         "environment": {
                             "variables": {
                                 "JOB_ID": "JOB-TEST1234",
-                                "TEXT_ENC_TRAIN_STEPS": "130",
-                                "UNET_TRAIN_STEPS": "1300"
+                                "TEXT_ENC_TRAIN_STEPS": "125",
+                                "UNET_TRAIN_STEPS": "1250"
                             }
                         }
                     }
@@ -76,7 +76,7 @@ jobsController.addJob = (req, res, next) => {
     // const {email, prompt_id, count_images} = req.body;
     const { email } = req.body;
 
-    const obj = {2:2,3:2,4:2,5:2,6:2,7:2,8:2,9:2,10:2,11:2,12:2};
+    const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
     // obj[prompt_id] = count_images;
 
     const image_generation_parameters = JSON.stringify(obj);
