@@ -4,12 +4,14 @@ const express = require('express');
 const querystring = require('querystring');
 const jobsController = require('./controllers/jobsController');
 const promoController = require('./controllers/promoController.js');
+const path = require('path');
 require('dotenv').config();
 
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../../dist/')));
 
 // const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const port = 3000;
