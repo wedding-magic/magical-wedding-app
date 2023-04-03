@@ -5,9 +5,7 @@ import Form from './Form.jsx';
 
 export default function LandingPageContainer(props){
 
-  // useEffect(() => {
-  //   document.querySelector('.for-StatusBar').style.visibility = "hidden";
-  // }, []);
+ 
 
   return (
    <div className='landingPageContainer'>
@@ -28,9 +26,6 @@ export default function LandingPageContainer(props){
                      handleNumImagesChange={props.handleNumImagesChange}
                      handlePromoCodeChange={props.handlePromoCodeChange}
                      handlePromptChange={props.handlePromptChange}/>
-    {/* <PaymentButton />
-    
-    <Link to="main"> <button>REDIRECT TO MAIN (TESTING REACT ROUTER)</button></Link> */}
      </div>
 
   )
