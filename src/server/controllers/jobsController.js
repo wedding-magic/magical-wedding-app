@@ -1,29 +1,11 @@
 const db = require('../db/connect-pg');
-// import fetch from 'node-fetch';
 const fetch = require('node-fetch');
 const {GoogleAuth} = require('google-auth-library');
 require('dotenv').config();
 
-/**
-* Instead of specifying the type of client you'd like to use (JWT, OAuth2, etc)
-* this library will automatically choose the right client based on the environment.
-*/
-// async function main() {
-//   const auth = new GoogleAuth({
-//     scopes: 'https://www.googleapis.com/auth/cloud-platform'
-//   });
-//   const client = await auth.getClient();
-//   const projectId = await auth.getProjectId();
-//   const url = `https://dns.googleapis.com/dns/v1/projects/${projectId}`;
-//   const res = await client.request({ url });
-//   console.log(res.data);
-// }
-
-// main().catch(console.error);
 
 const jobsController = {};
 
-const baseUrl = 'https://batch.googleapis.com/v1/projects/stable-diffusion-372315/locations/us-west1/jobs?job_id=';
 const baseUrl2 = 'https://batch-api-supervisor-vyyzo5oq3q-uw.a.run.app';
 
 function setJobId(str,id) {
@@ -42,8 +24,8 @@ const body = `{
                         "environment": {
                             "variables": {
                                 "JOB_ID": "JOB-TEST1234",
-                                "TEXT_ENC_TRAIN_STEPS": "125",
-                                "UNET_TRAIN_STEPS": "1250"
+                                "TEXT_ENC_TRAIN_STEPS": "130",
+                                "UNET_TRAIN_STEPS": "1300"
                             }
                         }
                     }
@@ -69,15 +51,23 @@ const body = `{
 
 jobsController.addJob = (req, res, next) => {
 
-    // const {user_email, image_generation_parameters} = req.body;
-    // console.log("reachedHere");
-    // console.log("prompt_id",req.body.prompt_id);
-
-    // const {email, prompt_id, count_images} = req.body;
     const { email } = req.body;
+    const { gender } = req.body;
+    console.log("gender", gender);
 
-    const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
-    // obj[prompt_id] = count_images;
+    let obj;
+
+    if (gender === "M" || "m") {
+        obj = {5:1,6:4,7:1,8:2,9:1,10:2,11:2,12:2}
+    }
+    else if (gender === "F" || "f") {
+        obj = {2:2,3:2,4:2,6:4,7:1,8:1,9:1,12:2 }
+    }
+    else {
+        obj = {2:1,3:2,4:1,5:1,6:4,8:1,9:1,10:1,11:1,12:2}
+    };
+
+    // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
 
     const image_generation_parameters = JSON.stringify(obj);
 
@@ -101,92 +91,13 @@ jobsController.addJob = (req, res, next) => {
 
 };
 
-// jobsController.checkJobs = async (req, res, next) => {
-
-//     const { job_id } = res.locals;
-
-
-
-// }
-
-// jobsController.startBatch = async (req, res, next) => {
-
-//     const { job_id } = res.locals;
-//     const stripped_id = job_id.slice(4);
-//     const config = setJobId(body, stripped_id);
-//     const url = baseUrl + job_id;
-
-//     console.log("config", config);
-//     console.log("job_id", job_id);
-//     console.log("stripped_id", stripped_id);
-
-
-
-//     // async function main() {
-//   const auth = new GoogleAuth({
-//     scopes: 'https://www.googleapis.com/auth/cloud-platform'
-//   });
-//   auth.getClient().then(
-//     client => {
-//         return client.request({ url: url, method: 'POST', 
-//         headers: {'Content-Type': 'application/json'}, data: config });
-//     })
-//     .then(
-//       data => {res.locals.batchResponse = data}
-//     )
-//     .then(
-//         () => {
-//             console.log("sent request")
-//             return next();
-//         }
-//     )
-//     .catch(err => {console.log(err)})
-// };
-
-// jobsController.startBatch2 = async (req, res, next) => {
-
-//     console.log("req.body",req.body);
-
-//     const { job_id } = req.body;
-//     // const stripped_id = job_id.slice(4);
-//     const config = setJobId(body, job_id);
-//     const url = baseUrl + job_id;
-
-//     console.log("config", config);
-//     console.log("job_id", job_id);
-//     // console.log("stripped_id", stripped_id);
-
-
-
-//     // async function main() {
-//   const auth = new GoogleAuth({
-//     scopes: 'https://www.googleapis.com/auth/cloud-platform'
-//   });
-//   auth.getClient().then(
-//     client => {
-//         return client.request({ url: url, method: 'POST', 
-//         headers: {'Content-Type': 'application/json'}, data: config });
-//     })
-//     .then(
-//       data => {res.locals.batchResponse = data}
-//     )
-//     .then(
-//         () => {
-//             console.log("sent request")
-//             return next();
-//         }
-//     )
-//     .catch(err => {console.log(err)})
-// };
 
 jobsController.startBatch2 = async (req, res, next) => {
 
     console.log("req.body",req.body);
 
     const { job_id } = req.body;
-    // const stripped_id = job_id.slice(4);
     const config = setJobId(body, job_id);
-    // const url = baseUrl + job_id;
 
     console.log("config", config);
     console.log("job_id", job_id);
@@ -217,10 +128,6 @@ jobsController.startBatch2 = async (req, res, next) => {
         .catch(
           err => console.log(err)
         )
-      
-        // Get the ID token.
-        // Once you've obtained the ID token, you can use it to make an authenticated call
-        // to the target audience.
        
         console.log('Generated ID token.');
       }
