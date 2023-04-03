@@ -1,4 +1,4 @@
-const db = require('../db/connect-pg');
+const db = require('../db/connect-pg-cloudrun.js');
 const fetch = require('node-fetch');
 const {GoogleAuth} = require('google-auth-library');
 require('dotenv').config();
