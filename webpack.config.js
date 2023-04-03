@@ -1,12 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
     mode: 'development',
     entry: path.join(__dirname, "src/client", "index.jsx"),
     output: {
         path: path.resolve(__dirname, "dist"),
-        publicPath: '/'
+        publicPath: '/',
+        filename: 'bundle.js'
     },
     module: {
         rules: [
@@ -40,6 +42,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src/client", "index.html"),
     }),
+    new NodePolyfillPlugin()
   ],
   devServer: {
     historyApiFallback: true,

@@ -24,9 +24,10 @@ TUSD_FILE_PATH -gcs-bucket=test_input_bucket29 --hooks-http http://localhost:808
 
 # to connect to database
 
+change the import statement in jobsController.js to connect-pg.js
+
 download cloud sql proxy binary
 
-```./cloud_sql_proxy -instances=stable-diffusion-372315:us-west1:magical-wedding=tcp:5432```
 
 ```./cloud-sql-proxy --credentials-file public/stable-diffusion-372315-b45b215dfa32.json stable-diffusion-372315:us-west1:magical-wedding ```
 
