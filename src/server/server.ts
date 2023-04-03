@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../dist/')));
 
 // const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/api/transloaditKeys', (req: any, res: any) => {
 
@@ -108,6 +108,8 @@ app.post('/api/startJob', jobsController.startBatch2, async (req: any, res: any)
 // })
 
 
-app.listen(port, () => {
-    console.log(`your server has been started at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`your server has been started port ${PORT}`);
 });
+
+module.exports = app;
