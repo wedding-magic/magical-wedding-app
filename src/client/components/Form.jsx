@@ -20,6 +20,17 @@ export default function Form(props) {
 
         />
         </div>
+
+        <div className="LandingPageForm">
+        <label htmlFor="gender">{"gender: "} </label>
+       <input type="text"
+              name="gender"
+              placeholder="enter 'M', 'F', or 'B'"
+              // value={emailInput}
+              onChange={props.handleGenderChange}
+
+        />
+        </div>
        
    
         <div className="LandingPageForm">

@@ -52,8 +52,22 @@ const body = `{
 jobsController.addJob = (req, res, next) => {
 
     const { email } = req.body;
+    const { gender } = req.body;
+    console.log("gender", gender);
 
-    const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
+    let obj;
+
+    if (gender === "M" || "m") {
+        obj = {5:1,6:4,7:1,8:2,9:1,10:2,11:2,12:2}
+    }
+    else if (gender === "F" || "f") {
+        obj = {2:2,3:2,4:2,6:4,7:1,8:1,9:1,12:2 }
+    }
+    else {
+        obj = {2:1,3:2,4:1,5:1,6:4,8:1,9:1,10:1,11:1,12:2}
+    };
+
+    // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
 
     const image_generation_parameters = JSON.stringify(obj);
 

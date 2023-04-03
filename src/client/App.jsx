@@ -22,12 +22,10 @@ export default function App() {
   
     const [searchParams, setSearchParams] = useSearchParams();
     const [emailInput, setEmailInput] = useState("");
-    const [promptInput, setPromptInput] = useState("");
-    const [numImagesInput, setNumImagesInput] = useState("");
+    const [genderInput, setGenderInput] = useState("");
     const [promoCodeInput, setPromoCodeInput] = useState("");
 
     const [url, setUrl] = useState("");
-    const [uppy, setUppy] = useState(null);
     const [transloaditParams, setTransloaditParams] = useState(
          {
                 auth: { key: ''},
@@ -37,8 +35,8 @@ export default function App() {
    
 
     const handleEmailChange =  (e) => {setEmailInput(e.target.value)};
-    const handlePromptChange =  (e) => {setPromptInput(e.target.value)};
-    const handleNumImagesChange = (e) => {setNumImagesInput(e.target.value)};
+    const handleGenderChange =  (e) => {setGenderInput(e.target.value)};
+   
     const handlePromoCodeChange = (e) => {setPromoCodeInput(e.target.value)};
 
 
@@ -48,23 +46,23 @@ export default function App() {
 
     useEffect(() => {
         handleToggle()
-    }, [uppy]);
+    }, [transloaditParams]);
 
     async function onSubmit(event) {
         event.preventDefault();
-        console.log("reached onSubmit")
+        // console.log("reached onSubmit")
         try {
           const response = await fetch("/api/promo", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email: emailInput, prompt_id: promptInput, count_images: numImagesInput, promo_code: promoCodeInput }),
+            body: JSON.stringify({ email: emailInput, gender: genderInput, promo_code: promoCodeInput }),
           });
     
           const data = await response.json();
-          console.log("data returned", data);
-          console.log("url",data.url);
+        //   console.log("data returned", data);
+        //   console.log("url",data.url);
           setUrl(data.url);
           setTransloaditParams({auth: {key: data.auth_key}, template_id: data.template_id});
           handleToggle();
@@ -102,7 +100,7 @@ export default function App() {
         
 
         const jobId = searchParams.get('job_id');
-        console.log("upload complete jobId",jobId)
+        // console.log("upload complete jobId",jobId)
         fetch("/api/startJob", {
             method: "POST",
             headers: {
@@ -123,7 +121,7 @@ export default function App() {
     
         const updatedFiles = {};
         const jobId = searchParams.get('job_id');
-        console.log("rename files jobId",jobId);
+        // console.log("rename files jobId",jobId);
                 
         for (let i = 0; i < Object.keys(files).length; i++) {
             updatedFiles[Object.keys(files)[i]] = {
@@ -158,9 +156,8 @@ export default function App() {
                 <Routes>
                 <Route path="/" element={<HideStatusBar><LandingPageContainer onSubmit={onSubmit}
                                                                 handleEmailChange={handleEmailChange}
-                                                                handleNumImagesChange= {handleNumImagesChange}
-                                                                handlePromoCodeChange={handlePromoCodeChange}
-                                                                handlePromptChange={handlePromptChange} />
+                                                                handleGenderChange={handleGenderChange}
+                                                                handlePromoCodeChange={handlePromoCodeChange} />
                                                                 </HideStatusBar>} />
              
                 <Route path="/main" element=  {transloaditParams ? <ShowStatusBar><Uploader uppy={uppyThree}/></ShowStatusBar> : null} />
