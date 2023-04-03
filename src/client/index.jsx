@@ -2,12 +2,7 @@
 
 
 /**
- * ************************************
- *
- * @module  index.js
- * @author  ds
- * @date    4/3/2023
- * @description entry point for application.  Hangs React app off of #contents in index.html
+ entry point for application.  Hangs React app off of #contents in index.html
  *
  * ************************************
  */
