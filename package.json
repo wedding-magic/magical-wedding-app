@@ -5,7 +5,7 @@
   "main": "/src/client/index.jsx",
   "scripts": {
     "dev": "webpack serve --mode=development",
-    "start-dev": "nodemon ./src/server/server.ts & webpack-dev-server",
+    "start-dev": "nodemon ./src/server/server.js & webpack-dev-server",
     "build": "webpack --config ./webpack.config.js"
   },
   "repository": {
@@ -44,9 +44,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
-    "stripe": "^11.5.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.3"
+    "stripe": "^11.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
@@ -60,7 +58,6 @@
     "nodemon": "^2.0.20",
     "postcss": "^8.4.20",
     "style-loader": "^3.3.1",
-    "ts-loader": "^9.4.2",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
