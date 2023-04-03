@@ -7,4 +7,4 @@ COPY . .
 RUN npm install
 RUN npm run build
 EXPOSE 3000
-ENTRYPOINT ["node", "./src/server/server.ts"]
+ENTRYPOINT ["node", "./src/server/server.js"]
