@@ -23,11 +23,6 @@ module.exports = {
                 }
             },
             {
-              test: /\.(ts|tsx)$/,
-              use: ['ts-loader'],
-              exclude: /node_modules/,
-            },
-            {
               test: /\.css$/i,
               include: path.resolve(__dirname, 'src/client'),
               use: ['style-loader', 'css-loader', 'postcss-loader'],
@@ -35,7 +30,7 @@ module.exports = {
         ]
     },
     resolve: {
-      extensions: ['.tsx','.jsx', '.js','.ts'],
+      extensions: ['.jsx', '.js','.ts'],
       modules: ['node_modules'],
     },
     plugins: [
