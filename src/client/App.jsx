@@ -166,6 +166,7 @@ export default function App() {
                 { (url && transloaditParams && toggle) ? <Navigate to={url} /> : null }
                
             </center>
+            <div className="contactInfo">{`Contact: Dan Steinbrook (steinbrookdaniel at gmail)`}</div>
         </>
     );
 };
