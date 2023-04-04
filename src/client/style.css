@@ -10,6 +10,16 @@ div .landingPageContainer {
   
 }
 
+div .contactInfo {
+  color: #666666;
+  font-family: 'Courier New', Courier, monospace;
+  margin-left: 20px;
+  position: fixed;
+  bottom: 20px;
+  font-weight:lighter;
+
+}
+
 h1 {
   color: #F3A61E;
   font-size: 50px;
