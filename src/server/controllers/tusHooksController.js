@@ -3,6 +3,9 @@
 // const storage = new Storage();
 // const bucketName = 'magical-wedding-bucket-1';
 
+///*** middleware to rename file in correct format in storage bucket if running tus server locally instead of using
+// transloadit api */
+
 // tusHooksController.renameFile = (req, res, next) => {
 //     console.log('renameFile invoked');
 
