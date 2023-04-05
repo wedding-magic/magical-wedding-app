@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+//export db object for node-postgres when connecting from production cloud run service
+
 const config = {
 
     user: process.env.DB_USER,
