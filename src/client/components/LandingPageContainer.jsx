@@ -1,6 +1,7 @@
 import React from 'react';
-
 import Form from './Form.jsx';
+
+//landing page container component that displays instructions and renders Form component
 
 
 export default function LandingPageContainer(props){

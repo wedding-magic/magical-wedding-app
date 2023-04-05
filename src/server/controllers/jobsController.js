@@ -1,16 +1,24 @@
-const db = require('../db/connect-pg-cloudrun.js');
+const db = require('../db/connect-pg.js');
 const fetch = require('node-fetch');
 const {GoogleAuth} = require('google-auth-library');
 require('dotenv').config();
 
 
-const jobsController = {};
+//controller to handle entering new jobs in database and triggering batch Api to run jobs
 
+
+const jobsController = {};
 const baseUrl2 = 'https://batch-api-supervisor-vyyzo5oq3q-uw.a.run.app';
+
+
+//sets job id in json body for post request to batch api
 
 function setJobId(str,id) {
     return str.replace('"JOB-TEST1234"',`"${id}"`);
 }
+
+//body for json post request to trigger batch api. You can manually adjust TEXT_ENC_TRAIN_STEPS and UNET_TRAIN_STEPS
+//as desired
 
 const body = `{
     "taskGroups": [
@@ -49,6 +57,9 @@ const body = `{
     }
 }`
 
+//method for adding job entry to database with user email, gender from landing page form. sets the uuid from database
+//row to the variable job_id which is passed back to the frontend to set the url param job_id
+
 jobsController.addJob = (req, res, next) => {
 
     const { email } = req.body;
@@ -57,15 +68,17 @@ jobsController.addJob = (req, res, next) => {
 
     let obj;
 
-    if (gender === "M" || "m") {
+    if (gender === "M" || gender === "m") {
         obj = {5:1,6:4,7:1,8:2,9:1,10:2,11:2,12:2}
     }
-    else if (gender === "F" || "f") {
+    else if (gender === "F" || gender === "f") {
         obj = {2:2,3:2,4:2,6:4,7:1,8:1,9:1,12:2 }
     }
     else {
         obj = {2:1,3:2,4:1,5:1,6:4,8:1,9:1,10:1,11:1,12:2}
     };
+
+    console.log("obj",obj);
 
     // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
 
@@ -91,6 +104,8 @@ jobsController.addJob = (req, res, next) => {
 
 };
 
+//function to trigger batch api using json body as defined above, as well as job_id from request body
+
 
 jobsController.startBatch2 = async (req, res, next) => {
 
@@ -107,6 +122,8 @@ jobsController.startBatch2 = async (req, res, next) => {
         return res.status(400).json('Bad request');
 
     }
+
+    //function to get ID token for auth header in POST request to batch api manager service
 
     getIdTokenFromMetadataServer(baseUrl2);
    
@@ -133,7 +150,7 @@ jobsController.startBatch2 = async (req, res, next) => {
       }
 
 
-
+//send POST request to trigger
    
    function triggerBatch(authToken){ fetch(baseUrl2, {
         method: 'POST',

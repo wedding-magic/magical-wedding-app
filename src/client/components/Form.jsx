@@ -1,5 +1,8 @@
 import React from "react";
 
+//form component for landing page. currently takes user email, gender, and promo code as inputs
+//and submits to checkPromo route on server, which if successful triggers redirect to Uploader component
+
 
 export default function Form(props) {
 
