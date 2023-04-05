@@ -16,19 +16,9 @@ app.use(express.static(path.join(__dirname, '../../dist/')));
 // const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const PORT = process.env.PORT || 3000;
 
-app.get('/api/transloaditKeys', (req, res) => {
 
-  const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
-  const auth_key = process.env.AUTH_KEY;
-
-  const response = {
-    template_id: template_id,
-    auth_key: auth_key
-  }
-
-  res.status(200).json(response);
-
-})
+//check if promo code is correct. if it is, add job to jobs table  and return redirect url with job_id query parameter set
+//along with transloadit keys for frontend uppy config
 
 app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (req, res) => {
   console.log("reached here");
@@ -46,6 +36,8 @@ app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (
 
   return res.status(200).json({url: url, template_id: template_id, auth_key: auth_key});
 })
+
+//trigger batch api for user's job id
 
 app.post('/api/startJob', jobsController.startBatch2, async (req, res) => {
   console.log("batch Response",res.locals.batchResponse);

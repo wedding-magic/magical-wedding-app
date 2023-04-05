@@ -2,6 +2,8 @@
 import React from 'react';
 import { DragDrop } from '@uppy/react';
 
+//uploader component. returns a DragDrop component from Uppy react library linked to the uppy object defined in App.jsx passed as a prop
+
 export default function Uploader (props) {
 
 
