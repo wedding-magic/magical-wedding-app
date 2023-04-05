@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+//return node-postgres db object when connecting locally via cloud-sql-proxy
+
 const config = {
 
     user: process.env.DB_USER,

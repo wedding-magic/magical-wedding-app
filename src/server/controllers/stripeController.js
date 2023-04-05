@@ -1,5 +1,8 @@
 // const stripe = require('stripe')('sk_test_51MJiFPFGv5L3ZxuOCjWw4P0RSr1gb5ZKjAZgVNu1Qq4jWot1fTpNh3tYtyoJlmp56j2EMwKRCCF6vgiu3o5KAo4h00KDGdXHck');
 
+
+//******* controller for stripe authentication. if the payment is successful it will redirect to uploader page */
+
 // const stripeController = {};
 
 // stripeController.makePayment = async (req, res, next) => {

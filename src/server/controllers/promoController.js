@@ -2,6 +2,9 @@ const promoController = {};
 require('dotenv').config();
 
 
+//middleware to check if promo code is correct
+
+
 promoController.checkPromo = (req, res, next) => {
     const {promo_code} = req.body;
     console.log("promo_code",promo_code);

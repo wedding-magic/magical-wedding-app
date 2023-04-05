@@ -19,7 +19,7 @@ import ShowStatusBar from "./components/ShowStatusBar";
 
 export default function App() {
 
-  
+    //define state variables
     const [searchParams, setSearchParams] = useSearchParams();
     const [emailInput, setEmailInput] = useState("");
     const [genderInput, setGenderInput] = useState("");
@@ -33,13 +33,12 @@ export default function App() {
             });
     const [toggle, setToggle] = useState(false);
    
-
+    //define onChange handlers for landing page form
     const handleEmailChange =  (e) => {setEmailInput(e.target.value)};
     const handleGenderChange =  (e) => {setGenderInput(e.target.value)};
-   
     const handlePromoCodeChange = (e) => {setPromoCodeInput(e.target.value)};
 
-
+    //method to insure useNavigate component for routing to image upload page only triggers once (when toggle=true)
     function handleToggle(){
         setToggle(!toggle);
     }
@@ -47,6 +46,9 @@ export default function App() {
     useEffect(() => {
         handleToggle()
     }, [transloaditParams]);
+
+    //when form is submitted, send data to server to check promo code, if promo code is correct return 
+    //transloadit keys for uploader
 
     async function onSubmit(event) {
         event.preventDefault();
@@ -76,6 +78,12 @@ export default function App() {
         }
       }
 
+    //************************ */
+
+    //method for displaying uploaded files, could be altered to display thumbnails
+
+    //************************ */
+
 
     // const onUploadSuccess = (elForUploadedFiles) => (file, response) => {
 
@@ -94,6 +102,9 @@ export default function App() {
       
     //     document.querySelector(elForUploadedFiles).appendChild(li)
     //   }
+
+
+    //trigger batch api for job id when upload is complete
 
     const onUploadComplete = () => {
 
@@ -117,6 +128,8 @@ export default function App() {
 
     }
 
+    //rename files before upload in job-{job_id}_{number} format
+
     const renameFiles2 = (files) => {
     
         const updatedFiles = {};
@@ -132,6 +145,8 @@ export default function App() {
                 
             };
 
+    //define uppy object for uploader component
+
     const uppyThree = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2,
     restrictions: {
         maxTotalFileSize: 200000000,
@@ -146,12 +161,14 @@ export default function App() {
      You will receive an email with your AI avatars within a couple hours.`}}})
     .on('complete', () => {onUploadComplete()});
 
-
+    //define routes and conditional rendering of components. status bar for uploader is hidden on landing page and shown on uploader page.
+    //Navigate component used to redirect to Uploader component after successful form submission.
    
     return (
         <>
         
             <center>
+
           
                 <Routes>
                 <Route path="/" element={<HideStatusBar><LandingPageContainer onSubmit={onSubmit}
