@@ -1,4 +1,4 @@
-const db = require('../db/connect-pg-cloudrun.js');
+const db = require('../db/connect-pg.js');
 const fetch = require('node-fetch');
 const {GoogleAuth} = require('google-auth-library');
 require('dotenv').config();
@@ -69,13 +69,13 @@ jobsController.addJob = (req, res, next) => {
     let obj;
 
     if (gender === "M" || gender === "m") {
-        obj = {1:4,5:1,6:4,7:1,8:2,9:1,10:2,11:2,12:2}
+        obj = {1:4,5:2,6:4,7:1,8:2,9:1,10:2,11:2,13:2}
     }
     else if (gender === "F" || gender === "f") {
-        obj = {1:4,2:2,3:2,4:2,6:4,7:1,8:1,9:1,12:2 }
+        obj = {1:4,2:2,3:3,4:2,6:4,7:1,8:1,9:1,12:2 }
     }
     else {
-        obj = {1:4,2:1,3:2,4:1,5:1,6:4,8:1,9:1,10:1,11:1,12:2}
+        obj = {1:4,2:1,3:2,4:1,5:2,6:4,8:1,9:1,10:1,11:1,12:2}
     };
 
     console.log("obj",obj);

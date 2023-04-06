@@ -7,8 +7,48 @@ div .landingPageContainer {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  /* justify-content: center; */
   
 }
+
+div .radioButtonsContainer {
+ 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+div .radioButtons {
+
+  /* padding: 12px 0px; */
+  margin-bottom: 10px;
+  width: 20px;
+  height: 20%;
+  
+}
+
+label #radioButtonsLabel {
+
+  display: inline-block;
+  width: 150px;
+  font-size: 18px;
+  color: #87B9E1;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+
+}
+
+div .landingPageForm {
+  margin-bottom: 10px;
+}
+
+/* label #radioButtonsLabel {
+  display: inline-block;
+  width: 150px;
+  font-size: 18px;
+  color: #87B9E1;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+} */
 
 div .contactInfo {
   color: #666666;
@@ -59,6 +99,9 @@ label {
   border-radius: 4px;
   margin-bottom: 10px;
   outline-color: #10a37f;
+  display: inline-block;
+  width: 150px;
+  height: 20px;
 }
 
 button[type="submit"] {
@@ -85,9 +128,7 @@ border-style: inset;
 }
 
 
-div .LandingPageForm {
-  margin-bottom: 10px
-}
+
 
 h5 {
   font-size: 18px;

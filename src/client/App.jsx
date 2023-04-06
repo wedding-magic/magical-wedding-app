@@ -12,6 +12,7 @@ import { Routes, Route, useSearchParams} from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import StatusBar from "@uppy/status-bar";
 import ShowStatusBar from "./components/ShowStatusBar";
+ 
 
 
 
@@ -35,7 +36,7 @@ export default function App() {
    
     //define onChange handlers for landing page form
     const handleEmailChange =  (e) => {setEmailInput(e.target.value)};
-    const handleGenderChange =  (e) => {setGenderInput(e.target.value)};
+    const handleGenderChange =  (val) => {setGenderInput(val)};
     const handlePromoCodeChange = (e) => {setPromoCodeInput(e.target.value)};
 
     //method to insure useNavigate component for routing to image upload page only triggers once (when toggle=true)
