@@ -12,6 +12,7 @@ import { Routes, Route, useSearchParams} from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import StatusBar from "@uppy/status-bar";
 import ShowStatusBar from "./components/ShowStatusBar";
+import Informer from '@uppy/informer';
  
 
 
@@ -132,6 +133,14 @@ export default function App() {
     //rename files before upload in job-{job_id}_{number} format
 
     const renameFiles2 = (files) => {
+
+        if (Object.keys(files).length < 15) {
+            // console.log('you have selected less than 15 files.')
+            uppyThree.info('You have selected less than 15 files for upload. Please try again with at least 15 files.','error',500);
+            uppyThree.cancelAll();
+            uppyThree.resetProgress();
+            return false;
+        }
     
         const updatedFiles = {};
         const jobId = searchParams.get('job_id');
@@ -146,11 +155,21 @@ export default function App() {
                 
             };
 
+    const handleUppyError = (error) => {
+        uppyThree.setState({info: [{isHidden: true, type: 'info', message: ''}]});
+        // console.log("upload error",error)
+        // uppyThree.info('Something went wrong! If errors persist, try returning to upload page, resubmitting form with promo code, and try again.','error',5000);
+        uppyThree.cancelAll();
+        uppyThree.resetProgress();
+        uppyThree.info('Upload failed. If errors persist, try returning to homepage, resubmitting form with promo code, and trying again without refreshing the page.','error',10000);
+    }
+
     //define uppy object for uploader component
 
     const uppyThree = new Uppy({ debug: true, autoProceed: true, allowMultipleUploadBatches: false, onBeforeUpload: renameFiles2,
     restrictions: {
         maxTotalFileSize: 200000000,
+        minNumberOfFiles: 15,
         allowedFileTypes: ['image/*','.jpg','.jpeg','.png']
     }})
     .use(Transloadit, {
@@ -158,9 +177,20 @@ export default function App() {
             params: transloaditParams
         }
     })
-    .use(StatusBar, {target: '.for-StatusBar', showProgressDetails: true, locale: {strings: {complete: `Upload complete!
-     You will receive an email with your AI avatars within a couple hours.`}}})
-    .on('complete', () => {onUploadComplete()});
+    .use(StatusBar, {target: '.for-StatusBar', showProgressDetails: true, hideUploadButton: true, locale: {strings: {complete: `Upload complete!
+     You will receive an email with your AI avatars within a couple hours.`, uploadFailed: 'Upload failed. If errors persist, try returning to homepage, resubmitting form with promo code, and trying again without refreshing the page.'}}})
+    .use(Informer, {target: '.for-Informer'})
+    .on('complete', () => {onUploadComplete()})
+    .on('error', () => handleUppyError());
+    // .on('info-visible', () => {
+    //     const {info} = uppyThree.getState();
+    //     console.log("info", info);
+    //     for (let element of info){
+    //     if (element.type !== 'error') {
+    //         info.isHidden = true
+    //     }
+    // }
+    // });
 
     //define routes and conditional rendering of components. status bar for uploader is hidden on landing page and shown on uploader page.
     //Navigate component used to redirect to Uploader component after successful form submission.

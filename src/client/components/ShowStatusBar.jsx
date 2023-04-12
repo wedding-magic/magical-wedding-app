@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 const ShowStatusBar = ({children}) => {
     useEffect(() => {
         document.querySelector('.for-StatusBar').style.visibility = "visible";
+        document.querySelector('.for-Informer').style.visibility = "visible";
       }, []);
       return children
 };

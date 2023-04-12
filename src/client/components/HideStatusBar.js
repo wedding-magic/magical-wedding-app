@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 const HideStatusBar = ({children}) => {
     useEffect(() => {
         document.querySelector('.for-StatusBar').style.visibility = "hidden";
+        document.querySelector('.for-Informer').style.visibility = "hidden";
       }, []);
       return children
 };
