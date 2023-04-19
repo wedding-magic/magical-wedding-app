@@ -14,7 +14,7 @@ const baseUrl2 = 'https://batch-api-supervisor-vyyzo5oq3q-uw.a.run.app';
 //sets job id in json body for post request to batch api
 
 function setJobId(str,id) {
-    return str.replace('"JOB-TEST1234"',`"${id}"`);
+  return str.replace('"JOB-TEST1234"',`"${id}"`);
 }
 
 //body for json post request to trigger batch api. You can manually adjust TEXT_ENC_TRAIN_STEPS and UNET_TRAIN_STEPS
@@ -55,51 +55,51 @@ const body = `{
     "logsPolicy": {
         "destination": "CLOUD_LOGGING"
     }
-}`
+}`;
 
 //method for adding job entry to database with user email, gender from landing page form. sets the uuid from database
 //row to the variable job_id which is passed back to the frontend to set the url param job_id
 
 jobsController.addJob = (req, res, next) => {
 
-    const { email } = req.body;
-    const { gender } = req.body;
-    console.log("gender", gender);
+  const { email } = req.body;
+  const { gender } = req.body;
+  console.log('gender', gender);
 
-    let obj;
+  let obj;
 
-    if (gender === "M" || gender === "m") {
-        obj = {1:4,5:2,6:4,7:1,8:2,9:1,10:2,11:2,13:2}
-    }
-    else if (gender === "F" || gender === "f") {
-        obj = {1:4,2:2,3:3,4:2,6:4,7:1,8:1,9:1,12:2}
-    }
-    else {
-        obj = {1:4,2:1,3:2,4:1,5:2,6:4,8:1,9:1,10:1,11:1,12:2}
-    };
+  if (gender === 'M' || gender === 'm') {
+    obj = {1:4,5:2,6:4,7:1,8:2,9:1,10:2,11:2,13:2};
+  }
+  else if (gender === 'F' || gender === 'f') {
+    obj = {1:4,2:2,3:3,4:2,6:4,7:1,8:1,9:1,12:2};
+  }
+  else {
+    obj = {1:4,2:1,3:2,4:1,5:2,6:4,8:1,9:1,10:1,11:1,12:2};
+  }
 
-    console.log("obj",obj);
+  console.log('obj',obj);
 
-    // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
+  // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
 
-    const image_generation_parameters = JSON.stringify(obj);
+  const image_generation_parameters = JSON.stringify(obj);
 
-    const values = [
-        email,
-        image_generation_parameters
-    ];
+  const values = [
+    email,
+    image_generation_parameters
+  ];
 
-    const qry = `INSERT INTO jobs(user_email, image_generation_parameters) VALUES($1,$2) RETURNING *`;
+  const qry = 'INSERT INTO jobs(user_email, image_generation_parameters) VALUES($1,$2) RETURNING *';
 
-    db.query(qry,values)
+  db.query(qry,values)
     .then(data => 
-        {
-            res.locals.newJob = data;
-            return next();
-        })
+    {
+      res.locals.newJob = data;
+      return next();
+    })
     .catch(
-            err => {console.log(err)
-            });
+      err => {console.log(err);
+      });
 
 
 };
@@ -109,67 +109,67 @@ jobsController.addJob = (req, res, next) => {
 
 jobsController.startBatch2 = async (req, res, next) => {
 
-    console.log("req.body",req.body);
+  console.log('req.body',req.body);
 
-    const { job_id } = req.body;
-    const config = setJobId(body, job_id);
+  const { job_id } = req.body;
+  const config = setJobId(body, job_id);
 
-    console.log("config", config);
-    console.log("job_id", job_id);
+  console.log('config', config);
+  console.log('job_id', job_id);
 
-    if (job_id === null){
+  if (job_id === null){
 
-        return res.status(400).json('Bad request');
+    return res.status(400).json('Bad request');
 
-    }
+  }
 
-    //function to get ID token for auth header in POST request to batch api manager service
+  //function to get ID token for auth header in POST request to batch api manager service
 
-    getIdTokenFromMetadataServer(baseUrl2);
+  getIdTokenFromMetadataServer(baseUrl2);
    
-    function getIdTokenFromMetadataServer(url) {
-        const googleAuth = new GoogleAuth();
-        googleAuth.getClient().then(
+  function getIdTokenFromMetadataServer(url) {
+    const googleAuth = new GoogleAuth();
+    googleAuth.getClient().then(
       
-          client => {
+      client => {
       
-          return client.fetchIdToken(url)
-          }
-      
-        ).then(
-          data => {
-            
-            console.log(data);
-            triggerBatch(data);
-        })
-        .catch(
-          err => console.log(err)
-        )
-       
-        console.log('Generated ID token.');
+        return client.fetchIdToken(url);
       }
+      
+    ).then(
+      data => {
+            
+        console.log(data);
+        triggerBatch(data);
+      })
+      .catch(
+        err => console.log(err)
+      );
+       
+    console.log('Generated ID token.');
+  }
 
 
-//send POST request to trigger
+  //send POST request to trigger
    
-   function triggerBatch(authToken){ fetch(baseUrl2, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + authToken
-        },
-        body: config
-    })
+  function triggerBatch(authToken){ fetch(baseUrl2, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + authToken
+    },
+    body: config
+  })
     .then(
-      data => {res.locals.batchResponse = data}
+      data => {res.locals.batchResponse = data;}
     )
     .then(
-        () => {
-            console.log("sent request")
-            return next();
-        }
+      () => {
+        console.log('sent request');
+        return next();
+      }
     )
-    .catch(err => {console.log(err)})
-}};
+    .catch(err => {console.log(err);});
+  }};
 
 module.exports = jobsController;
