@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 const db = process.env.NODE_ENV === 'production' ? require('../db/connect-pg-cloudrun.js') : require('../db/connect-pg.js');
 const fetch = require('node-fetch');
@@ -144,8 +145,9 @@ jobsController.startBatch2 = async (req, res, next) => {
   getIdTokenFromMetadataServer(baseUrl2);
    
   function getIdTokenFromMetadataServer(url) {
+    const servicePath = path.join(__dirname, 'public', 'stable-diffusion-372315-b45b215dfa32.json');
     const googleAuth = new GoogleAuth({
-      scopes: 'https://www.googleapis.com/auth/cloud-platform'
+      defaultServicePath: servicePath
     });
     console.log("getIdToken1");
     googleAuth.getClient().then(
