@@ -145,7 +145,7 @@ jobsController.startBatch2 = async (req, res, next) => {
    
   function getIdTokenFromMetadataServer(url) {
     const googleAuth = new GoogleAuth();
-    console.log("getIdToken1")
+    console.log("getIdToken1");
     googleAuth.getClient().then(
       
       client => {
@@ -173,7 +173,9 @@ jobsController.startBatch2 = async (req, res, next) => {
 
   //send POST request to trigger batch job
    
-  function triggerBatch(authToken){ fetch(baseUrl2, {
+  function triggerBatch(authToken){ 
+    console.log("triggerBatch1 authToken", authToken);
+    fetch(baseUrl2, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -182,7 +184,7 @@ jobsController.startBatch2 = async (req, res, next) => {
     body: config
   })
     .then(
-      data => {res.locals.batchResponse = data;}
+      data => {console.log("triggerBatch2"); res.locals.batchResponse = data;}
     )
     .then(
       () => {
