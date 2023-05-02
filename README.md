@@ -24,9 +24,6 @@ TUSD_FILE_PATH -gcs-bucket=test_input_bucket29 --hooks-http http://localhost:808
 
 # to connect to database
 
-change the import statement in jobsController.js to connect-pg.js
-
-remember to change it back to connect-pg-cloudrun.js before pushing to production
 
 download cloud sql proxy binary
 
