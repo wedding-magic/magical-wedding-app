@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: path.join(__dirname, 'src/client', 'index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -39,14 +39,4 @@ module.exports = {
     }),
     new NodePolyfillPlugin()
   ],
-  devServer: {
-    historyApiFallback: true,
-    static: {
-      directory: path.join(__dirname, './dist'),
-    },
-    proxy: {
-      '/api': 'http://localhost:3000',
-      secure: false
-    }
-  },
 };
