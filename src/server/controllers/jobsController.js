@@ -145,16 +145,17 @@ jobsController.startBatch2 = async (req, res, next) => {
    
   function getIdTokenFromMetadataServer(url) {
     const googleAuth = new GoogleAuth();
+    console.log("getIdToken1")
     googleAuth.getClient().then(
       
       client => {
-      
+        console.log("getIdToken2")
         return client.fetchIdToken(url);
       }
       
     ).then(
       data => {
-            
+        console.log('Generated ID token.');
         console.log(data);
         triggerBatch(data);
       })
@@ -166,7 +167,7 @@ jobsController.startBatch2 = async (req, res, next) => {
         }));}
       );
        
-    console.log('Generated ID token.');
+    // console.log('Generated ID token.');
   }
 
 
