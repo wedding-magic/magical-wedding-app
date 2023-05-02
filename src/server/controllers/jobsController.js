@@ -144,7 +144,9 @@ jobsController.startBatch2 = async (req, res, next) => {
   getIdTokenFromMetadataServer(baseUrl2);
    
   function getIdTokenFromMetadataServer(url) {
-    const googleAuth = new GoogleAuth();
+    const googleAuth = new GoogleAuth({
+      scopes: 'https://www.googleapis.com/auth/cloud-platform'
+    });
     console.log("getIdToken1");
     googleAuth.getClient().then(
       
