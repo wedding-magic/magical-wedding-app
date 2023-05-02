@@ -80,32 +80,6 @@ export default function App() {
     }
   }
 
-  //************************ */
-
-  //method for displaying uploaded files, could be altered to display thumbnails
-
-  //************************ */
-
-
-  // const onUploadSuccess = (elForUploadedFiles) => (file, response) => {
-
-  //     console.log("testo")
-  //     const url = response.uploadURL
-  //     const fileName = file.name;
-  //     console.log("file.meta",file.meta);
-  //     console.log("file",file);
-      
-  //     const li = document.createElement('li')
-  //     const a = document.createElement('a')
-  //     a.href = url
-  //     a.target = '_blank'
-  //     a.appendChild(document.createTextNode(fileName))
-  //     li.appendChild(a)
-      
-  //     document.querySelector(elForUploadedFiles).appendChild(li)
-  //   }
-
-
   //trigger batch api for job id when upload is complete
 
   const onUploadComplete = () => {
@@ -155,6 +129,8 @@ export default function App() {
                 
   };
 
+  //handle upload errors
+
   const handleUppyError = (error) => {
     uppyThree.setState({info: [{isHidden: true, type: 'info', message: ''}]});
     // console.log("upload error",error)
@@ -182,15 +158,7 @@ export default function App() {
     .use(Informer, {target: '.for-Informer'})
     .on('complete', () => {onUploadComplete();})
     .on('error', () => handleUppyError());
-    // .on('info-visible', () => {
-    //     const {info} = uppyThree.getState();
-    //     console.log("info", info);
-    //     for (let element of info){
-    //     if (element.type !== 'error') {
-    //         info.isHidden = true
-    //     }
-    // }
-    // });
+   
 
   //define routes and conditional rendering of components. status bar for uploader is hidden on landing page and shown on uploader page.
   //Navigate component used to redirect to Uploader component after successful form submission.
