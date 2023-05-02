@@ -1,14 +1,26 @@
-const db = require('../db/connect-pg-cloudrun.js');
+require('dotenv').config();
+
+const db = process.env.NODE_ENV === 'production' ? require('../db/connect-pg-cloudrun.js') : require('../db/connect-pg.js');
 const fetch = require('node-fetch');
 const {GoogleAuth} = require('google-auth-library');
-require('dotenv').config();
+
+const baseUrl2 = process.env.BATCH_API_URL;
 
 
 //controller to handle entering new jobs in database and triggering batch Api to run jobs
 
 
 const jobsController = {};
-const baseUrl2 = 'https://batch-api-supervisor-vyyzo5oq3q-uw.a.run.app';
+
+
+//configure error object for global error handler
+const createErr = (errInfo) => {
+  const { method, type, err } = errInfo;
+  return { 
+    log: `jobsController.${method} ${type}: ERROR: ${typeof err === 'object' ? JSON.stringify(err) : err}`,
+    message: { err: `Error occurred in jobsController.${method}. Check server logs for more details.` }
+  };
+};
 
 
 //sets job id in json body for post request to batch api
@@ -64,7 +76,7 @@ jobsController.addJob = (req, res, next) => {
 
   const { email } = req.body;
   const { gender } = req.body;
-  console.log('gender', gender);
+  // console.log('gender', gender);
 
   let obj;
 
@@ -78,7 +90,7 @@ jobsController.addJob = (req, res, next) => {
     obj = {1:4,2:1,3:2,4:1,5:2,6:4,8:1,9:1,10:1,11:1,12:2};
   }
 
-  console.log('obj',obj);
+  // console.log('obj',obj);
 
   // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
 
@@ -98,7 +110,11 @@ jobsController.addJob = (req, res, next) => {
       return next();
     })
     .catch(
-      err => {console.log(err);
+      err => {return next(createErr({
+        method: 'addJob',
+        type: 'error',
+        err
+      }));
       });
 
 
@@ -143,14 +159,18 @@ jobsController.startBatch2 = async (req, res, next) => {
         triggerBatch(data);
       })
       .catch(
-        err => console.log(err)
+        err => {return next(createErr({
+          method: 'startBatch2',
+          type: 'getIdTokenFromMetadataServer',
+          err
+        }));}
       );
        
     console.log('Generated ID token.');
   }
 
 
-  //send POST request to trigger
+  //send POST request to trigger batch job
    
   function triggerBatch(authToken){ fetch(baseUrl2, {
     method: 'POST',
@@ -169,7 +189,11 @@ jobsController.startBatch2 = async (req, res, next) => {
         return next();
       }
     )
-    .catch(err => {console.log(err);});
+    .catch(err => {return next(createErr({
+      method: 'startBatch2',
+      type: 'triggerBatch',
+      err
+    }));});
   }};
 
 module.exports = jobsController;

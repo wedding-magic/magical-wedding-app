@@ -1,5 +1,3 @@
-// import { PollingWatchKind } from "typescript";
-
 const express = require('express');
 const querystring = require('querystring');
 const jobsController = require('./controllers/jobsController');
@@ -21,28 +19,28 @@ const PORT = process.env.PORT || 3000;
 //along with transloadit keys for frontend uppy config
 
 app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (req, res) => {
-  console.log("reached here");
-  console.log("req.body",req.body);
-  console.log("res.locals.newJob",res.locals.newJob.rows[0]);
+  // console.log('reached here');
+  // console.log('req.body',req.body);
+  // console.log('res.locals.newJob',res.locals.newJob.rows[0]);
   const paramsObject = {
     job_id: res.locals.newJob.rows[0]._id
   };
   const myQueryString = querystring.stringify(paramsObject);
   const url = `/main?${myQueryString}`;
-  console.log("url",url);
+  // console.log('url',url);
 
   const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
   const auth_key = process.env.TRANSLOADIT_AUTH;
 
   return res.status(200).json({url: url, template_id: template_id, auth_key: auth_key});
-})
+});
 
 //trigger batch api for user's job id
 
 app.post('/api/startJob', jobsController.startBatch2, async (req, res) => {
-  console.log("batch Response",res.locals.batchResponse);
+  console.log('batch Response',res.locals.batchResponse);
   res.sendStatus(200);
-})
+});
 
 
 
@@ -93,15 +91,27 @@ app.post('/api/startJob', jobsController.startBatch2, async (req, res) => {
 //     // res.status(200).json(session.url);
 //   });
 
+// catch-all route handler for any requests to an unknown route
+app.use((req, res) => {
+  return res.sendStatus(404);
+});
 
-
-// app.get("/", (req: any, res: any) => {
-//   res.status(200).json('hello world');
-// })
+// global error handler
+app.use((err,req,res,next) => {
+  const defaultError = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
+    message: {err: 'An error occurred'}
+  };
+  const errorObj = Object.assign(defaultError, err);
+  console.log(errorObj.log);
+  // res.status(errorObj.status);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 
 
 app.listen(PORT, () => {
-    console.log(`your server has been started port ${PORT}`);
+  console.log(`your server has been started port ${PORT}`);
 });
 
 module.exports = app;
