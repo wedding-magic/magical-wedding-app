@@ -1,8 +1,9 @@
 require('dotenv').config();
-const path = require('path');
+// const path = require('path');
 
 const db = process.env.NODE_ENV === 'production' ? require('../db/connect-pg-cloudrun.js') : require('../db/connect-pg.js');
 const fetch = require('node-fetch');
+// import got from 'got';
 const {GoogleAuth} = require('google-auth-library');
 
 const baseUrl2 = process.env.BATCH_API_URL;
@@ -185,7 +186,10 @@ jobsController.startBatch2 = async (req, res, next) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: config
+      body: config,
+      // timeout: {
+      //   request: 600000
+      // }
     };
 
     console.log("getIdToken1");
@@ -193,16 +197,21 @@ jobsController.startBatch2 = async (req, res, next) => {
       
       client => {
         console.log("getIdToken2")
-        return client.getRequestHeaders();
+        return client.getRequestHeaders(baseUrl2);
       }
       
-    ).then(
+    )
+    .then(
       headers => {
         console.log('getIdToken3');
         serviceRequestOptions.headers['Authorization'] = headers['Authorization'];
-        // console.log(data);
-        triggerBatch(baseUrl2, serviceRequestOptions);
+        console.log("getId auth header", serviceRequestOptions.headers);
+        return serviceRequestOptions;
+        // triggerBatch(baseUrl2, serviceRequestOptions);
       })
+      .then(
+        (serviceRequestOptions) => {triggerBatch(baseUrl2, serviceRequestOptions)}
+      )
       .catch(
         err => {return next(createErr({
           method: 'startBatch2',
