@@ -193,16 +193,21 @@ jobsController.startBatch2 = async (req, res, next) => {
       
       client => {
         console.log("getIdToken2")
-        return client.getRequestHeaders();
+        return client.getRequestHeaders(baseUrl2);
       }
       
-    ).then(
+    )
+    .then(
       headers => {
         console.log('getIdToken3');
         serviceRequestOptions.headers['Authorization'] = headers['Authorization'];
-        // console.log(data);
-        triggerBatch(baseUrl2, serviceRequestOptions);
+        console.log("getId auth header", serviceRequestOptions.headers);
+        return serviceRequestOptions;
+        // triggerBatch(baseUrl2, serviceRequestOptions);
       })
+      .then(
+        (serviceRequestOptions) => {triggerBatch(baseUrl2, serviceRequestOptions)}
+      )
       .catch(
         err => {return next(createErr({
           method: 'startBatch2',
