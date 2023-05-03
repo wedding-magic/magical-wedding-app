@@ -234,13 +234,15 @@ jobsController.startBatch2 = async (req, res, next) => {
         console.log('triggerBatch3');
         return next();
       }
+    ).catch(
+      err => console.log("error in triggerBatch", err)
     )
-    .catch(err => {return next(createErr({
-      method: 'startBatch2',
-      type: 'triggerBatch',
-      err
-    }));
-  });
+  //   .catch(err => {return next(createErr({
+  //     method: 'startBatch2',
+  //     type: 'triggerBatch',
+  //     err
+  //   }));
+  // });
   }
 
 
