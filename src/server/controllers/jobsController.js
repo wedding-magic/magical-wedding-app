@@ -142,26 +142,66 @@ jobsController.startBatch2 = async (req, res, next) => {
 
   //function to get ID token for auth header in POST request to batch api manager service
 
+  // getIdTokenFromMetadataServer(baseUrl2);
+   
+  // function getIdTokenFromMetadataServer(url) {
+  //   const servicePath = path.join(__dirname, 'public', 'stable-diffusion-372315-b45b215dfa32.json');
+  //   const googleAuth = new GoogleAuth({
+  //     defaultServicePath: servicePath
+  //   });
+  //   console.log("getIdToken1");
+  //   googleAuth.getClient().then(
+      
+  //     client => {
+  //       console.log("getIdToken2")
+  //       return client.fetchIdToken(url);
+  //     }
+      
+  //   ).then(
+  //     data => {
+  //       console.log('Generated ID token.');
+  //       console.log(data);
+  //       triggerBatch(data);
+  //     })
+  //     .catch(
+  //       err => {return next(createErr({
+  //         method: 'startBatch2',
+  //         type: 'getIdTokenFromMetadataServer',
+  //         err
+  //       }));}
+  //     );
+       
+  //   // console.log('Generated ID token.');
+  // }
+
   getIdTokenFromMetadataServer(baseUrl2);
    
   function getIdTokenFromMetadataServer(url) {
-    const servicePath = path.join(__dirname, 'public', 'stable-diffusion-372315-b45b215dfa32.json');
-    const googleAuth = new GoogleAuth({
-      defaultServicePath: servicePath
-    });
+    // const servicePath = path.join(__dirname, 'public', 'stable-diffusion-372315-b45b215dfa32.json');
+    const googleAuth = new GoogleAuth();
+
+    const serviceRequestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: config
+    };
+
     console.log("getIdToken1");
-    googleAuth.getClient().then(
+    googleAuth.getIdTokenClient(baseUrl2).then(
       
       client => {
         console.log("getIdToken2")
-        return client.fetchIdToken(url);
+        return client.getRequestHeaders();
       }
       
     ).then(
-      data => {
-        console.log('Generated ID token.');
-        console.log(data);
-        triggerBatch(data);
+      headers => {
+        console.log('getIdToken3');
+        serviceRequestOptions.headers['Authorization'] = headers['Authorization'];
+        // console.log(data);
+        triggerBatch(baseUrl2, serviceRequestOptions);
       })
       .catch(
         err => {return next(createErr({
@@ -174,25 +214,15 @@ jobsController.startBatch2 = async (req, res, next) => {
     // console.log('Generated ID token.');
   }
 
-
-  //send POST request to trigger batch job
-   
-  function triggerBatch(authToken){ 
-    console.log("triggerBatch1 authToken", authToken);
-    fetch(baseUrl2, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + authToken
-    },
-    body: config
-  })
+  function triggerBatch(url, options){ 
+    console.log("triggerBatch1");
+    fetch(url, options)
     .then(
       data => {console.log("triggerBatch2"); res.locals.batchResponse = data;}
     )
     .then(
       () => {
-        console.log('sent request');
+        console.log('triggerBatch3');
         return next();
       }
     )
@@ -200,7 +230,39 @@ jobsController.startBatch2 = async (req, res, next) => {
       method: 'startBatch2',
       type: 'triggerBatch',
       err
-    }));});
-  }};
+    }));
+  });
+  }
+
+
+  //send POST request to trigger batch job
+   
+  // function triggerBatch(authToken){ 
+  //   console.log("triggerBatch1 authToken", authToken);
+  //   fetch(baseUrl2, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer ' + authToken
+  //   },
+  //   body: config
+  // })
+  //   .then(
+  //     data => {console.log("triggerBatch2"); res.locals.batchResponse = data;}
+  //   )
+  //   .then(
+  //     () => {
+  //       console.log('sent request');
+  //       return next();
+  //     }
+  //   )
+  //   .catch(err => {return next(createErr({
+  //     method: 'startBatch2',
+  //     type: 'triggerBatch',
+  //     err
+  //   }));
+  // });
+  // }
+};
 
 module.exports = jobsController;
