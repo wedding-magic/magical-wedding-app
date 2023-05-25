@@ -49,6 +49,8 @@ export default function App() {
     handleToggle();
   }, [transloaditParams]);
 
+  //check for job_id and transloadit params and redirect to uploader page if they exist
+
   useEffect(() => {
     const job_id = searchParams.get('job_id');
     const template_id = searchParams.get('template_id');
