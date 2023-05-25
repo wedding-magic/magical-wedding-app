@@ -2,12 +2,16 @@ const express = require('express');
 const querystring = require('querystring');
 const jobsController = require('./controllers/jobsController');
 const promoController = require('./controllers/promoController.js');
+const stripeController = require('./controllers/stripeController');
 const path = require('path');
+// const cors = require('cors');
 require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 
 
 const app = express();
 app.use(express.json());
+// app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../dist/')));
 
@@ -18,22 +22,22 @@ const PORT = process.env.PORT || 3000;
 //check if promo code is correct. if it is, add job to jobs table  and return redirect url with job_id query parameter set
 //along with transloadit keys for frontend uppy config
 
-app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (req, res) => {
-  // console.log('reached here');
-  // console.log('req.body',req.body);
-  // console.log('res.locals.newJob',res.locals.newJob.rows[0]);
-  const paramsObject = {
-    job_id: res.locals.newJob.rows[0]._id
-  };
-  const myQueryString = querystring.stringify(paramsObject);
-  const url = `/main?${myQueryString}`;
-  // console.log('url',url);
+// app.post('/api/promo',promoController.checkPromo, jobsController.addJob, async (req, res) => {
+//   // console.log('reached here');
+//   // console.log('req.body',req.body);
+//   // console.log('res.locals.newJob',res.locals.newJob.rows[0]);
+//   const paramsObject = {
+//     job_id: res.locals.newJob.rows[0]._id
+//   };
+//   const myQueryString = querystring.stringify(paramsObject);
+//   const url = `/main?${myQueryString}`;
+//   // console.log('url',url);
 
-  const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
-  const auth_key = process.env.TRANSLOADIT_AUTH;
+//   const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
+//   const auth_key = process.env.TRANSLOADIT_AUTH;
 
-  return res.status(200).json({url: url, template_id: template_id, auth_key: auth_key});
-});
+//   return res.status(200).json({url: url, template_id: template_id, auth_key: auth_key});
+// });
 
 //trigger batch api for user's job id
 
@@ -41,6 +45,29 @@ app.post('/api/startJob', jobsController.startBatch2, async (req, res) => {
   console.log('batch Response',res.locals.batchResponse);
   res.sendStatus(200);
 });
+
+//create stripe checkout session and return url of session to frontend which then redirects user to stripe checkout page.
+//if payment is successful user is then redirected to /api/order/success route below
+
+app.post('/api/create-checkout-session', stripeController.makePayment);
+
+//after a successful payment, this route retrieves the customer's email from stripe, then creates a job entry in database using that email
+//and redirects to main app page passing job_id and transloadit params as query params
+
+app.get('/api/order/success', stripeController.getEmail, jobsController.addJob2, async (req, res) => {
+  const paramsObject = {
+    job_id: res.locals.newJob.rows[0]._id,
+    template_id: process.env.TRANSLOADIT_TEMPLATE_ID,
+    auth_key: process.env.TRANSLOADIT_AUTH
+  };
+  const myQueryString = querystring.stringify(paramsObject);
+  res.redirect('/?' + myQueryString);
+});
+
+
+
+
+// app.post('/api/stripe-success', )
 
 
 

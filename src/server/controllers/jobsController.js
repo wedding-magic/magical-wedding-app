@@ -122,6 +122,55 @@ jobsController.addJob = (req, res, next) => {
 
 };
 
+jobsController.addJob2 = (req, res, next) => {
+
+  const { email } = res.locals;
+  let gender;
+  // const { gender } = req.body;
+  // console.log('gender', gender);
+
+  let obj;
+
+  if (gender === 'M' || gender === 'm') {
+    obj = {1:4,5:2,6:4,7:1,8:2,9:1,10:2,11:2,13:2};
+  }
+  else if (gender === 'F' || gender === 'f') {
+    obj = {1:4,2:2,3:3,4:2,6:4,7:1,8:1,9:1,12:2};
+  }
+  else {
+    obj = {1:4,2:1,3:2,4:1,5:2,6:4,8:1,9:1,10:1,11:1,12:2};
+  }
+
+  // console.log('obj',obj);
+
+  // const obj = {5:1,6:3,7:1,8:1,9:1,10:3,11:1,12:3};
+
+  const image_generation_parameters = JSON.stringify(obj);
+
+  const values = [
+    email,
+    image_generation_parameters
+  ];
+
+  const qry = 'INSERT INTO jobs(user_email, image_generation_parameters) VALUES($1,$2) RETURNING *';
+
+  db.query(qry,values)
+    .then(data => 
+    {
+      res.locals.newJob = data;
+      return next();
+    })
+    .catch(
+      err => {return next(createErr({
+        method: 'addJob',
+        type: 'error',
+        err
+      }));
+      });
+
+
+};
+
 //function to trigger batch api using json body as defined above, as well as job_id from request body
 
 
@@ -192,25 +241,25 @@ jobsController.startBatch2 = async (req, res, next) => {
       // }
     };
 
-    console.log("getIdToken1");
+    console.log('getIdToken1');
     googleAuth.getIdTokenClient(baseUrl2).then(
       
       client => {
-        console.log("getIdToken2")
+        console.log('getIdToken2');
         return client.getRequestHeaders(baseUrl2);
       }
       
     )
-    .then(
-      headers => {
-        console.log('getIdToken3');
-        serviceRequestOptions.headers['Authorization'] = headers['Authorization'];
-        console.log("getId auth header", serviceRequestOptions.headers);
-        return serviceRequestOptions;
-        // triggerBatch(baseUrl2, serviceRequestOptions);
-      })
       .then(
-        (serviceRequestOptions) => {triggerBatch(baseUrl2, serviceRequestOptions)}
+        headers => {
+          console.log('getIdToken3');
+          serviceRequestOptions.headers['Authorization'] = headers['Authorization'];
+          console.log('getId auth header', serviceRequestOptions.headers);
+          return serviceRequestOptions;
+        // triggerBatch(baseUrl2, serviceRequestOptions);
+        })
+      .then(
+        (serviceRequestOptions) => {triggerBatch(baseUrl2, serviceRequestOptions);}
       )
       .catch(
         err => {return next(createErr({
@@ -224,19 +273,19 @@ jobsController.startBatch2 = async (req, res, next) => {
   }
 
   function triggerBatch(url, options){ 
-    console.log("triggerBatch1");
+    console.log('triggerBatch1');
     fetch(url, options)
-    .then(
-      data => {console.log("triggerBatch2"); res.locals.batchResponse = data;}
-    )
-    .then(
-      () => {
-        console.log('triggerBatch3');
-        return next();
-      }
-    ).catch(
-      err => console.log("error in triggerBatch", err)
-    )
+      .then(
+        data => {console.log('triggerBatch2'); res.locals.batchResponse = data;}
+      )
+      .then(
+        () => {
+          console.log('triggerBatch3');
+          return next();
+        }
+      ).catch(
+        err => console.log('error in triggerBatch', err)
+      );
   //   .catch(err => {return next(createErr({
   //     method: 'startBatch2',
   //     type: 'triggerBatch',

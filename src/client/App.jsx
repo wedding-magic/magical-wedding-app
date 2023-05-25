@@ -49,6 +49,23 @@ export default function App() {
     handleToggle();
   }, [transloaditParams]);
 
+  //check for job_id and transloadit params and redirect to uploader page if they exist
+
+  useEffect(() => {
+    const job_id = searchParams.get('job_id');
+    const template_id = searchParams.get('template_id');
+    const auth_key = searchParams.get('auth_key');
+    // const url = `/main?job_id=${job_id}`;
+    if (job_id && template_id && auth_key) {
+      setUrl(`/main?job_id=${job_id}`);
+      setTransloaditParams({auth: {key: auth_key}, template_id: template_id});
+      handleToggle();
+    }
+
+  });
+
+
+
   //when form is submitted, send data to server to check promo code, if promo code is correct return 
   //transloadit keys for uploader
 
@@ -159,7 +176,21 @@ export default function App() {
     .on('complete', () => {onUploadComplete();})
     .on('error', () => handleUppyError());
    
+  
+  function dummyHandleSubmit(){
 
+    fetch('/api/create-checkout-session', {method: 'POST',  headers: {
+      'Content-Type': 'application/json'
+    }}).then(
+      response => response.json()
+    ).then(
+      response => {console.log(response);
+        window.location.href = response.url;}
+    ).catch(
+      err => console.log(err)
+    );
+
+  }
   //define routes and conditional rendering of components. status bar for uploader is hidden on landing page and shown on uploader page.
   //Navigate component used to redirect to Uploader component after successful form submission.
    
@@ -182,6 +213,7 @@ export default function App() {
         { (url && transloaditParams && toggle) ? <Navigate to={url} /> : null }
                
       </center>
+      <button onClick={dummyHandleSubmit}>Pay</button>
       <div className="contactInfo">{'Contact: Dan Steinbrook (steinbrookdaniel at gmail)'}</div>
     </>
   );
