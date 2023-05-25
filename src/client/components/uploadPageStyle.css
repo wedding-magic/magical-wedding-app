@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code&display=swap');
+
+.uploaderTitle {
+    font-family: 'M PLUS 1 Code', sans-serif;
+    font-size: 30px;
+}
+
+#tsparticles {
+    position: relative;
+    z-index: -1;
+}
+
+label {
+    margin-left: 10px;
+    font-family: 'M PLUS 1 Code', sans-serif;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+input[type=radio] {
+    border: 0px;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+img.profile-photo {
+  width: 30%;
+  height: 30%;
+}
+
+fieldset {
+    max-width: 80%;
+}
+
+.radio {
+    display: flex;
+    align-items: left;
+    margin: 10px;
+}
+
+.submit-btn {
+    height: 80px;
+    font-family: 'Kalam';
+    text-shadow: 2px 2px #ff0000;
+    font-weight: 700;
+    display: block;
+    width: calc(100% - 14px);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    background: -webkit-linear-gradient(45deg, #680aca, #ff897e);
+    background: linear-gradient(60deg,#f79533,#f37055,#ef4e7b,#a166ab,#5073b8,#1098ad,#07b39b,#6fba82);
+    -webkit-animation: animatedgradient 6s ease infinite alternate;
+    animation: animatedgradient 6s ease infinite alternate;
+    background-size: 300% 300%;
+    border: 0px solid rgba(0,0,0,0);
+    color: #EAEDF0;
+    border-radius: 10px;
+    max-width: 450px;
+    margin-top: 30px;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 0 5px #eee;
+    cursor: pointer;
+  }
+  
+.submit-btn:active {
+    box-shadow: 0 0 30px #eee;
+    transform: translate(1px,2px);
+  }
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.upload {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    column-gap: 100px;
+}
