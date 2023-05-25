@@ -6,13 +6,14 @@ import './style.css';
 import Uploader from './components/Uploader';
 import HideStatusBar from './components/HideStatusBar';
 import LandingPageContainer from './components/LandingPageContainer';
+import LandingPageContainer2 from './components/LandingPageContainer2';
 
 import { Routes, Route, useSearchParams} from 'react-router-dom';
 
 import { Navigate } from 'react-router-dom';
 import StatusBar from '@uppy/status-bar';
 import ShowStatusBar from './components/ShowStatusBar';
-import Informer from '@uppy/informer';
+//import Informer from '@uppy/informer';
  
 
 
@@ -172,7 +173,7 @@ export default function App() {
     })
     .use(StatusBar, {target: '.for-StatusBar', showProgressDetails: true, hideUploadButton: true, locale: {strings: {complete: `Upload complete!
      You will receive an email with your AI avatars within a couple hours.`, uploadFailed: 'Upload failed. If errors persist, try returning to homepage, resubmitting form with promo code, and trying again without refreshing the page.'}}})
-    .use(Informer, {target: '.for-Informer'})
+    //.use(Informer, {target: '.for-Informer'})
     .on('complete', () => {onUploadComplete();})
     .on('error', () => handleUppyError());
    
@@ -201,19 +202,19 @@ export default function App() {
 
           
         <Routes>
-          <Route path="/" element={<HideStatusBar><LandingPageContainer onSubmit={onSubmit}
-            handleEmailChange={handleEmailChange}
-            handleGenderChange={handleGenderChange}
-            handlePromoCodeChange={handlePromoCodeChange} />
-          </HideStatusBar>} />
+          <Route path="/" element={
+            <HideStatusBar>
+              <LandingPageContainer2 handleSubmit={dummyHandleSubmit}/>
+            </HideStatusBar>
+          } />
              
-          <Route path="/main" element=  {transloaditParams ? <ShowStatusBar><Uploader uppy={uppyThree}/></ShowStatusBar> : null} />
+          <Route path="/main" element={transloaditParams ? <ShowStatusBar><Uploader uppy={uppyThree}/></ShowStatusBar> : null} />
         </Routes>
 
         { (url && transloaditParams && toggle) ? <Navigate to={url} /> : null }
                
       </center>
-      <button onClick={dummyHandleSubmit}>Pay</button>
+      
       <div className="contactInfo">{'Contact: Dan Steinbrook (steinbrookdaniel at gmail)'}</div>
     </>
   );
