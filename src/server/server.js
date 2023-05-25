@@ -2,12 +2,16 @@ const express = require('express');
 const querystring = require('querystring');
 const jobsController = require('./controllers/jobsController');
 const promoController = require('./controllers/promoController.js');
+const stripeController = require('./controllers/stripeController');
 const path = require('path');
+// const cors = require('cors');
 require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 
 
 const app = express();
 app.use(express.json());
+// app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../dist/')));
 
@@ -41,6 +45,33 @@ app.post('/api/startJob', jobsController.startBatch2, async (req, res) => {
   console.log('batch Response',res.locals.batchResponse);
   res.sendStatus(200);
 });
+
+app.post('/api/create-checkout-session', stripeController.makePayment);
+
+app.get('/api/order/success', stripeController.getEmail, jobsController.addJob2, async (req, res) => {
+  // console.log('reached here');
+  // console.log('req.body',req.body);
+  // console.log('res.locals.newJob',res.locals.newJob.rows[0]);
+  const paramsObject = {
+    job_id: res.locals.newJob.rows[0]._id,
+    template_id: process.env.TRANSLOADIT_TEMPLATE_ID,
+    auth_key: process.env.TRANSLOADIT_AUTH
+  };
+  const myQueryString = querystring.stringify(paramsObject);
+  res.redirect('/?' + myQueryString);
+  // const url = `/?${myQueryString}`;
+  // console.log('url',url);
+
+  // const template_id = process.env.TRANSLOADIT_TEMPLATE_ID;
+  // const auth_key = process.env.TRANSLOADIT_AUTH;
+
+  // return res.status(200).json({url: url, template_id: template_id, auth_key: auth_key});
+});
+
+
+
+
+// app.post('/api/stripe-success', )
 
 
 
