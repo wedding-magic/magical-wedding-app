@@ -116,16 +116,7 @@ button[type="submit"] {
   border-style: outset;
 }
 
-button:hover {
-  -webkit-filter: drop-shadow(2px 2px 2px #666666);
-filter: drop-shadow(2px 2px 2px #666666);
-background-color: #313131;
-color: #a21a23;
 
-}
-button:active {
-border-style: inset;
-}
 
 
 
@@ -368,4 +359,8 @@ h5 {
     font-size: 1em;
   }
 
+
+
+
+  
 

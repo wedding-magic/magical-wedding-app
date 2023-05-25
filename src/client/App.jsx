@@ -14,10 +14,6 @@ import { Navigate } from 'react-router-dom';
 import StatusBar from '@uppy/status-bar';
 import ShowStatusBar from './components/ShowStatusBar';
 //import Informer from '@uppy/informer';
- 
-
-
-
 
 
 export default function App() {
@@ -214,8 +210,6 @@ export default function App() {
         { (url && transloaditParams && toggle) ? <Navigate to={url} /> : null }
                
       </center>
-      
-      <div className="contactInfo">{'Contact: Dan Steinbrook (steinbrookdaniel at gmail)'}</div>
     </>
   );
 }
