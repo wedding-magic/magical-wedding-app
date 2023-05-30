@@ -13,9 +13,11 @@ stripeController.makePayment = async (req, res, next) => {
         price_data: {
           currency: 'usd',
           product_data: {
-            name: '100 images',
+            name: '99 custom avatars',
+            description: "After checkout, you'll upload photos of yourself. \
+                          Your 99 avatars will be delivered by email within 24 hours.",
           },
-          unit_amount: 1000,
+          unit_amount: 1000
         },
         quantity: 1,
       },

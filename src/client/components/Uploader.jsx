@@ -147,7 +147,7 @@ export default function Uploader (props) {
           <fieldset>
               <legend>Select your gender:</legend>
               <div class="radio">
-                <input type="radio" id="male" name="gender" value="male" checked/>
+                <input type="radio" id="male" name="gender" value="male"/>
                 <label for="male">Male</label>
               </div>
               <div class="radio">
@@ -160,6 +160,18 @@ export default function Uploader (props) {
         <div>
           <fieldset>
               <legend>Upload your photos:</legend>
+              <div class="upload-span-container">
+              <div class="upload-span1">
+                <div class="info">
+                <ol>
+                  <li>Upload 20-30 photos of yourself with your face clearly visible</li>
+                  <li>Mostly front-angle shots, but include a few other angles</li>
+                  <li>Photos should have different backgrounds</li>
+                  <li>Your look should be consistent (e.g. don't wear sunglasses or have facial hair in one photo)</li>
+                  <li>Make sure you are the only person in the photos</li>
+                </ol>
+                </div>
+                <div class="info">The better the quality of your photos, the better your avatars will look!</div>
                 <br />
                   <div class="upload">
                   <DragDrop uppy={props.uppy}
@@ -170,9 +182,49 @@ export default function Uploader (props) {
                     }}
                     note='Image files only (.jpg .jpeg or .png), recommended 20-30 pictures with varied backgrounds and clear view of face. Min number of files: 15, Max total file size: 200 MB' 
                   />
-                  
-                  <img class="profile-photo" src="https://i.imgur.com/nOd8BF8.jpg" alt="Generated avatar" />
                   </div>
+              </div>
+              <div class="upload-span2">
+                <div>Photo examples:</div>
+                <br />
+                <div class="photo-column">
+                <div class="test">
+                    <img class="profile-photo good" src="https://i.imgur.com/2Hx56Xe.jpg" alt="Good photo" />
+                    <div class="centered c">✓</div>
+                  </div>
+                  <div class="test">
+                    <img class="profile-photo good" src="https://i.imgur.com/Ay1wX1C.jpg" alt="Good photo" />
+                    <div class="centered c">✓</div>
+                  </div>
+                </div>
+
+                <div class="photo-column">
+                <div class="test">
+                    <img class="profile-photo good" src="https://i.imgur.com/pOKeYaC.jpg" alt="Good photo" />
+                    <div class="centered c">✓</div>
+                  </div>
+                <div class="test">
+                  <img class="profile-photo bad" src="https://i.imgur.com/JvAo4Si.jpg" alt="Bad photo" />
+                  <div class="centered">sunglasses</div>
+                  <div class="centered x">✘</div>
+                </div>
+                </div>
+
+                <div class="photo-column">
+                <div class="test">
+                  <img class="profile-photo bad" src="https://i.imgur.com/nXa6Y2p.jpg" alt="Bad photo" />
+                  <div class="centered">low light</div>
+                  <div class="centered x">✘</div>
+                </div>  
+                <div class="test">
+                  <img class="profile-photo bad" src="https://i.imgur.com/LUrBI3n.jpg" alt="Bad photo" />
+                  <div class="centered">multiple people</div>
+                  <div class="centered x">✘</div>
+                </div>
+                </div>
+
+              </div>
+              </div>
             </fieldset>
           </div>
           <div>

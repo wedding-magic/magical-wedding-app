@@ -28,7 +28,7 @@ export default function LandingPageContainer2(props){
                    options={{
                         "particles": {
                           "number": {
-                            "value": 15,
+                            "value": 100,
                             "density": {
                               "enable": true,
                               "value_area": 789.1476416322727
@@ -137,42 +137,42 @@ export default function LandingPageContainer2(props){
                       }}
         />
 
-        <html>
-            <head>
-                <meta charset="UTF-8" />
+        
+            
+                <meta charSet="UTF-8" />
                 <title>Avatar Genie</title>
                 <link rel="stylesheet" href="style.css" />
-            </head>
-            <body>
+            
+            
                 <header>
-                    <h1 class="create-avatar-btn-top"><span class="text-top"> Avatar Genie </span></h1>
+                    <h1 className="create-avatar-btn-top"><span className="text-top"> Avatar Genie </span></h1>
                 </header>
                 <main>
-                    <div class="copy">• Get 99 unique, AI-illustrated avatars!</div>
-                    <div class="copy">• Just upload photos, no cropping needed</div>
+                    <div className="copy">• Get 99 unique, AI-illustrated avatars!</div>
+                    <div className="copy">• Just upload photos, no cropping needed</div>
                     
-                    <div class="photo">
-                        <img class="photo" src="https://i.imgur.com/nOd8BF8.jpg" alt="Generated avatar" />
+                    <div className="photo">
+                        <img className="photo" src="https://i.imgur.com/nOd8BF8.jpg" alt="Generated avatar" />
                     </div>
                     <br />
-                    <div class="photo">
-                        <img class="photo" src="https://i.imgur.com/nOd8BF8.jpg" alt="Generated avatar" />
+                    <div className="photo">
+                        <img className="photo" src="https://i.imgur.com/nOd8BF8.jpg" alt="Generated avatar" />
                     </div>
                     <br />
                     <br />
-                    <div class="coming-soon">Coming Soon:</div>
+                    <div className="coming-soon">Coming Soon:</div>
                     <br />
                     <br />
                     <br />
             </main>
                 <footer>
-                    <button onClick={props.handleSubmit} class="btn create-avatar-btn">
-                        <img class="lamp" src="https://grammar-genie-nine.vercel.app/lamp.png" />
-                        <span class="btn-text"> Get Started!</span>  
+                    <button onClick={props.handleSubmit} className="btn create-avatar-btn">
+                        <img className="lamp" src="https://grammar-genie-nine.vercel.app/lamp.png" />
+                        <span className="btn-text"> Get Started!</span>  
                     </button>
                 </footer>
-            </body>
-        </html>
+            
+        
 
     </div>
 
