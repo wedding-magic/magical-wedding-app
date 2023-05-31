@@ -46,8 +46,8 @@ const body = `{
                         "environment": {
                             "variables": {
                                 "JOB_ID": "JOB-TEST1234",
-                                "TEXT_ENC_TRAIN_STEPS": "350",
-                                "UNET_TRAIN_STEPS": "3500"
+                                "TEXT_ENC_TRAIN_STEPS": "300",
+                                "UNET_TRAIN_STEPS": "1500"
                             }
                         }
                     }
