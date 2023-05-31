@@ -46,8 +46,8 @@ const body = `{
                         "environment": {
                             "variables": {
                                 "JOB_ID": "JOB-TEST1234",
-                                "TEXT_ENC_TRAIN_STEPS": "200",
-                                "UNET_TRAIN_STEPS": "2000"
+                                "TEXT_ENC_TRAIN_STEPS": "350",
+                                "UNET_TRAIN_STEPS": "1500"
                             }
                         }
                     }
@@ -83,13 +83,13 @@ jobsController.addJob = (req, res, next) => {
   let obj;
 
   if (gender === 'M' || gender === 'm') {
-    obj = {1:4,14:3,6:2,15:2,7:1,9:1,10:2,11:2,13:2,16:3,17:3};
+    obj = {1:5,14:5,6:5,15:5,7:5,9:5,10:5,11:5,13:5,16:5,17:5};
   }
   else if (gender === 'F' || gender === 'f') {
-    obj = {1:3,2:3,3:3,4:2,15:2,6:2,7:1,9:1,12:2};
+    obj = {1:5,2:5,3:5,4:5,15:5,6:5,7:5,9:5,12:5};
   }
   else {
-    obj = {1:4,2:1,3:2,4:1,14:3,6:4,9:1,10:1,11:1,12:1};
+    obj = {1:5,2:5,3:5,4:5,14:5,6:5,9:5,10:5,11:5,12:5};
   }
 
   // console.log('obj',obj);
